@@ -33,6 +33,24 @@ if (PORT === 80) {
 
 const store = new RoomStore({ hextech: cards, anime: animeCards, game: gameCards, childhood: childhoodCards });
 
+// 基于内存的轻量级 IP 限流防刷器
+const ipLimits = new Map();
+setInterval(() => {
+  ipLimits.clear();
+}, 60000); // 每分钟清空计数
+
+app.use((req, res, next) => {
+  // 获取真实 IP
+  const ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress || "unknown";
+  const count = ipLimits.get(ip) || 0;
+  if (count > 150) { // 每个 IP 每分钟最多 150 次请求，超出后直接拦截返回 429
+    res.status(429).send("Too Many Requests (您的请求过于频繁，已被系统防御性拦截，请一分钟后再试)");
+    return;
+  }
+  ipLimits.set(ip, count + 1);
+  next();
+});
+
 app.use(express.json({ limit: "16kb" }));
 app.use("/hextech", express.static(getHextechStaticDir()));
 app.use("/anime", express.static(getAnimeStaticDir()));
@@ -113,6 +131,29 @@ if (!isProduction) {
 store.setChangeHandler((roomId) => emitRoom(roomId));
 
 io.on("connection", (socket) => {
+  // 安全防护：限制最大同时在线人数（35人）及单 IP 并发连接（5个）
+  const MAX_CONCURRENT_USERS = 35;
+  const activeCount = io.sockets.sockets.size;
+  if (activeCount > MAX_CONCURRENT_USERS) {
+    socket.emit("error", "服务器当前已满员（最大允许 35 人同时在线），请稍后再试！");
+    socket.disconnect(true);
+    return;
+  }
+
+  const clientIp = socket.handshake.headers["x-forwarded-for"] || socket.handshake.address || "unknown";
+  let ipConnCount = 0;
+  for (const [_, s] of io.sockets.sockets) {
+    const sIp = s.handshake.headers["x-forwarded-for"] || s.handshake.address || "unknown";
+    if (sIp === clientIp) {
+      ipConnCount++;
+    }
+  }
+  if (ipConnCount > 5) {
+    socket.emit("error", "您的网络连接数过于频繁，单 IP 最大允许 5 个连接！");
+    socket.disconnect(true);
+    return;
+  }
+
   socket.on("room:create", (payload, reply) => {
     run(reply, () => {
       const access = requireAccess(payload);

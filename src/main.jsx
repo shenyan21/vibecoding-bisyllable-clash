@@ -158,14 +158,19 @@ function App() {
       setLastRoomId(nextRoom.id);
       localStorage.setItem(LAST_ROOM_KEY, nextRoom.id);
     };
+    const onError = (msg) => {
+      setError(String(msg || "连接错误"));
+    };
     socket.on("connect", onConnect);
     socket.on("disconnect", onDisconnect);
     socket.on("room:state", onState);
+    socket.on("error", onError);
     if (socket.connected) onConnect();
     return () => {
       socket.off("connect", onConnect);
       socket.off("disconnect", onDisconnect);
       socket.off("room:state", onState);
+      socket.off("error", onError);
     };
   }, [access?.token, clientId, request]);
 
