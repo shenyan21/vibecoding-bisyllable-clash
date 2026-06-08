@@ -576,6 +576,20 @@ function LobbyScreen({ connected, error, publicUrl, request, room, leaveLocalRoo
   );
 }
 
+function SidebarStatus({ room, remainingSeconds }) {
+  const clues = room.clueHistory || [];
+  const timerText = room.status === "playing" && room.phase !== "round_over" ? `${remainingSeconds}s` : "--";
+  return (
+    <div className="sidebar-status">
+      <div className="sidebar-timer">
+        <Timer size={16} />
+        <span>{timerText}</span>
+      </div>
+      <ClueTimeline clues={clues} />
+    </div>
+  );
+}
+
 function GameRoomScreen({ connected, error, publicUrl, request, room, leaveLocalRoom }) {
   const [hostOpen, setHostOpen] = useState(false);
   const [shareCopied, setShareCopied] = useState(false);
@@ -594,7 +608,6 @@ function GameRoomScreen({ connected, error, publicUrl, request, room, leaveLocal
       <RoomTopbar
         room={room}
         connected={connected}
-        remainingSeconds={remainingSeconds}
         stageLabel={viewStateLabel(viewState, room)}
         isAdmin={isAdmin}
         hostOpen={hostOpen}
@@ -607,7 +620,13 @@ function GameRoomScreen({ connected, error, publicUrl, request, room, leaveLocal
       {isMediaMode(room.gameMode) && <TeamRail room={room} horizontal />}
 
       <section className={isMediaMode(room.gameMode) ? "game-layout anime-game-layout" : "game-layout"}>
-        {!isMediaMode(room.gameMode) && <TeamRail room={room} />}
+        {isMediaMode(room.gameMode) ? (
+          <SidebarStatus room={room} remainingSeconds={remainingSeconds} />
+        ) : (
+          <TeamRail room={room}>
+            <SidebarStatus room={room} remainingSeconds={remainingSeconds} />
+          </TeamRail>
+        )}
         <GameStage room={room} request={request} remainingSeconds={remainingSeconds} viewState={viewState} />
         <MessageRail messages={room.messages} />
       </section>
@@ -624,8 +643,7 @@ function GameRoomScreen({ connected, error, publicUrl, request, room, leaveLocal
   );
 }
 
-function RoomTopbar({ room, connected, remainingSeconds, stageLabel, isAdmin, hostOpen, shareCopied, onShare, onLeave, onToggleHost }) {
-  const timerText = room.status === "playing" && room.phase !== "round_over" ? `${remainingSeconds}s` : "--";
+function RoomTopbar({ room, connected, stageLabel, isAdmin, hostOpen, shareCopied, onShare, onLeave, onToggleHost }) {
   return (
     <header className="room-topbar">
       <div className="top-pill strong">房间 {room.id} · {gameModeLabel(room.gameMode)}</div>
@@ -636,7 +654,6 @@ function RoomTopbar({ room, connected, remainingSeconds, stageLabel, isAdmin, ho
         <span className="team-b">{room.score.B} {teamShortName("B")}</span>
       </div>
       <div className="top-pill stage-pill">{stageLabel}</div>
-      <div className="top-pill timer-top"><Timer size={17} /> {timerText}</div>
       <button className="top-button" onClick={onShare} type="button"><Copy size={16} /> {shareCopied ? "已复制房间链接" : `房间号: ${room.id}`}</button>
       <button className="top-button" onClick={onLeave} type="button"><LogOut size={16} /> 返回首页</button>
       {isAdmin && (
@@ -731,8 +748,10 @@ function SeatCard({ team, seatRole, slotIndex = null, player, room, request, int
     <div className={isActing ? "seat-card acting" : "seat-card"}>
       <div className="seat-icon">{seatRole === "clue_giver" ? <Sparkles size={18} /> : <Swords size={18} />}</div>
       <div className="seat-body">
-        <span>{seatLabel(seatRole)}</span>
-        {slotIndex && <span className="seat-slot">#{slotIndex}</span>}
+        <span>
+          {seatLabel(seatRole)}
+          {slotIndex && <span className="seat-slot">#{slotIndex}</span>}
+        </span>
         <strong>{player?.nickname || "空席"}</strong>
         {player && (
           <small>
@@ -768,14 +787,11 @@ function CurrentPlayers({ room }) {
   );
 }
 
-function TeamRail({ room, horizontal = false }) {
+function TeamRail({ room, horizontal = false, children }) {
   return (
     <aside className={horizontal ? "team-rail horizontal-team-rail" : "team-rail"}>
+      {!horizontal && children}
       <TeamSeatBoard room={room} request={() => Promise.resolve()} mode={horizontal ? "game-horizontal" : "game"} />
-      <div className="my-role-strip">
-        <span>你是</span>
-        <strong>{playerText(room.me)}</strong>
-      </div>
     </aside>
   );
 }
@@ -784,7 +800,6 @@ function GameStage({ room, request, remainingSeconds, viewState }) {
   const lastTurn = room.roundTurns?.at(-1);
   const lastHistory = room.history?.at(-1);
   const hidden = !room.canSeeAnswer;
-  const clues = room.clueHistory || [];
   const isMediaAnswerMode = isMediaMode(room.gameMode);
   const canViewGuesserOptions =
     room.me.role === "contestant" &&
@@ -805,7 +820,6 @@ function GameStage({ room, request, remainingSeconds, viewState }) {
 
   return (
     <section className={canViewGuesserOptions || canViewClueOptions ? "main-stage guesser-stage" : "main-stage"}>
-      <ClueTimeline clues={clues} />
 
       {canViewGuesserOptions ? (
         isMediaAnswerMode ? (
@@ -1317,7 +1331,7 @@ function RuneIcon({ src, name, className = "" }) {
     );
   }
 
-  return <img className={className} src={src} alt="" loading="lazy" onError={() => setBroken(true)} />;
+  return <img className={className} src={src} alt="" onError={() => setBroken(true)} />;
 }
 
 function PosterImage({ src, name, className = "" }) {
@@ -1335,7 +1349,7 @@ function PosterImage({ src, name, className = "" }) {
     );
   }
 
-  return <img className={className} src={src} alt="" loading="lazy" onError={() => setBroken(true)} />;
+  return <img className={className} src={src} alt="" onError={() => setBroken(true)} />;
 }
 
 function ProgressDock({ room, remainingSeconds }) {

@@ -40,10 +40,24 @@ setInterval(() => {
 }, 60000); // 每分钟清空计数
 
 app.use((req, res, next) => {
-  // 获取真实 IP
   const ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress || "unknown";
+  
+  // 排除静态文件与素材请求，避免图片加载被限流拦截
+  const path = req.path;
+  if (
+    path.startsWith("/anime/") ||
+    path.startsWith("/game/") ||
+    path.startsWith("/childhood/") ||
+    path.startsWith("/hextech/") ||
+    path.startsWith("/assets/") ||
+    path.startsWith("/socket.io/") ||
+    path === "/favicon.ico"
+  ) {
+    return next();
+  }
+
   const count = ipLimits.get(ip) || 0;
-  if (count > 150) { // 每个 IP 每分钟最多 150 次请求，超出后直接拦截返回 429
+  if (count > 300) { // 每个 IP 每分钟最多 300 次 API/页面请求
     res.status(429).send("Too Many Requests (您的请求过于频繁，已被系统防御性拦截，请一分钟后再试)");
     return;
   }

@@ -83,6 +83,25 @@ npm.cmd run dev
 
 ---
 
+## 🚀 v1.5 版本重大更新记录 (2026-06-08)
+
+此版本为团队最新交付的 UI 现代化与稳定性优化，开发接手时必须知悉以下几项核心架构调整：
+
+1. **大厅高度抖动与撑大缺陷修复 (Lobby Height Bug)**：
+   * **现象**：当玩家在房间大厅频繁执行入座/旁观时，后端产生大量系统消息推送到右侧 `compact` 消息流。因缺少高度和溢出限制，大厅 Grid 布局右侧高度不断变长，进而导致左侧大厅主体列被强制拉伸，使座席卡片与按钮之间出现空白扩散。
+   * **解决**：在 `styles.css` 中为 `.lobby-main` 与 `.lobby-side` 定义了独立的 `align-self: start`，且为主体列添加了 `align-content: start` 杜绝内部元素拉升；同时给 `.message-rail.compact` 设定了 `400px` 固定高度与 `overflow: hidden`，使系统信息就地小窗滚动。
+
+2. **多媒体素材加载稳定性 (Lazy-Loading Removed)**：
+   * 在 `RuneIcon` 和 `PosterImage` 组件中移除了原生 `loading="lazy"`。在复杂的动态滚动 Grid 内，图片预加载更为稳健，防止了客户端偶发的海报图加载空白。
+
+3. **并发流控及 429 绕过 whitelisting**：
+   * 调高了服务端 IP 速率限制上限至 `300` req/min，同时在 `server/index.js` 中将静态素材路径（`/anime/`, `/game/`, `/childhood/`, `/hextech/`, `/assets/` 等）以及 `/socket.io/` 握手请求加入白名单，规避多媒体并行大流量触发防火墙拦截的故障。
+
+4. **房间重置清理规则 (Reset to Spectator)**：
+   * 调整了 `RoomStore.resetRoom` 接口。房间重置时，除了 admin (主持人) 保持原状态外，其他所有参赛选手的身份强制降级为 `spectator` (旁观者)，清除 ready、team 和 seatRole 等状态，实现公平健康的新局过渡。
+
+---
+
 ## ⚠️ 避坑与不要再次尝试的路径 (Deprecated Paths)
 
 1. **切勿尝试 WMI 或 WinRM 自动发布**：公网服务器的 WinRM/WMI 远程连接没有稳定放行，部署应始终使用 SSH/SFTP 流程。

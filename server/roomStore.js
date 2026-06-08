@@ -331,7 +331,17 @@ export class RoomStore {
     const keepCardUsageCounts = room.cardUsageCounts || {};
     const reset = createRoomState(room.id, room.adminId);
     reset.gameMode = keepGameMode;
-    reset.players = keepPlayers.map((player) => ({ ...player, online: Boolean(player.online), ready: false }));
+    reset.players = keepPlayers.map((player) => {
+      const isAdmin = player.id === room.adminId;
+      return {
+        ...player,
+        role: isAdmin ? "admin" : "spectator",
+        team: null,
+        seatRole: null,
+        ready: false,
+        online: Boolean(player.online)
+      };
+    });
     reset.settings = this.withAllCandidateOptions(keepSettings, keepGameMode);
     reset.cardUsageCounts = { ...keepCardUsageCounts };
     reset.messages = [...room.messages.slice(-200), this.systemMessage("房间已重置")];
