@@ -1,0 +1,1546 @@
+[
+  {
+    "id": 1004,
+    "name": "回归基本功",
+    "quality": "棱彩",
+    "effect": "获得提升过的技能伤害、治疗效果、护盾和技能急速，但你不能使用你的终极技能。",
+    "image": "https://apexlol.info/images/hextech/backtobasics.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/backtobasics.webp"
+  },
+  {
+    "id": 1006,
+    "name": "利刃华尔兹",
+    "quality": "棱彩",
+    "effect": "获得利刃华尔兹作为一个召唤师技能。",
+    "image": "https://apexlol.info/images/hextech/bladewaltz.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/bladewaltz.webp"
+  },
+  {
+    "id": 1011,
+    "name": "你摸不到",
+    "quality": "棱彩",
+    "effect": "施放你的终极技能会使你进入短时间的免疫伤害状态。",
+    "image": "https://apexlol.info/images/hextech/canttouchthis.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/canttouchthis.webp"
+  },
+  {
+    "id": 1015,
+    "name": "死亡之环",
+    "quality": "棱彩",
+    "effect": "治疗效果和生命回复效果还会对相距最近的那个敌方英雄造成魔法伤害。",
+    "image": "https://apexlol.info/images/hextech/circleofdeath.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/circleofdeath.webp"
+  },
+  {
+    "id": 1018,
+    "name": "巨像的勇气",
+    "quality": "棱彩",
+    "effect": "定身或缚地一个敌方英雄后获得护盾值。",
+    "image": "https://apexlol.info/images/hextech/courageofthecolossus.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/courageofthecolossus.webp"
+  },
+  {
+    "id": 1019,
+    "name": "全凭身法",
+    "quality": "棱彩",
+    "effect": "你的冲刺、跳跃、闪烁或传送类技能获得技能急速。",
+    "image": "https://apexlol.info/images/hextech/dashing.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/dashing.webp"
+  },
+  {
+    "id": 1027,
+    "name": "大地苏醒",
+    "quality": "棱彩",
+    "effect": "你的冲刺、闪烁或传送类技能会留下一条在秒后爆炸的轨迹。",
+    "image": "https://apexlol.info/images/hextech/earthwake.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/earthwake.webp"
+  },
+  {
+    "id": 1030,
+    "name": "尤里卡",
+    "quality": "棱彩",
+    "effect": "获得相当于法术强度的技能急速。",
+    "image": "https://apexlol.info/images/hextech/eureka.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/eureka.webp"
+  },
+  {
+    "id": 1035,
+    "name": "感受燃烧",
+    "quality": "棱彩",
+    "effect": "获得召唤师技能感受灼烧。\n\n感受灼烧会对所有附近的敌人们施放引燃和虚弱。",
+    "image": "https://apexlol.info/images/hextech/feeltheburn.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/feeltheburn.webp"
+  },
+  {
+    "id": 1041,
+    "name": "歌利亚巨人",
+    "quality": "棱彩",
+    "effect": "体型变大，获得生命值和适应之力。",
+    "image": "https://apexlol.info/images/hextech/goliath.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/goliath.webp"
+  },
+  {
+    "id": 1045,
+    "name": "炼狱导管",
+    "quality": "棱彩",
+    "effect": "你的技能会施加一层可叠加的灼烧，持续造成魔法伤害。\n\n你的灼烧效果会降低你各基础技能的冷却时间。",
+    "image": "https://apexlol.info/images/hextech/infernalconduit.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/infernalconduit.webp"
+  },
+  {
+    "id": 1048,
+    "name": "珠光护手",
+    "quality": "棱彩",
+    "effect": "你的技能可以造成暴击，造成总伤害。获得暴击几率。\n\n获得 暴击几率。",
+    "image": "https://apexlol.info/images/hextech/jeweledgauntlet.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/jeweledgauntlet.webp"
+  },
+  {
+    "id": 1054,
+    "name": "物法皆修",
+    "quality": "棱彩",
+    "effect": "你的每次攻击为你提供可叠加的法术强度，并且你的每次技能在伤害敌人时为你提供可叠加的攻击力。",
+    "image": "https://apexlol.info/images/hextech/masterofduality.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/masterofduality.webp"
+  },
+  {
+    "id": 1058,
+    "name": "秘术冲拳",
+    "quality": "棱彩",
+    "effect": "使你的各个技能的冷却时间缩减秒。",
+    "image": "https://apexlol.info/images/hextech/mysticpunch.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/mysticpunch.webp"
+  },
+  {
+    "id": 1062,
+    "name": "全能龙魂",
+    "quality": "棱彩",
+    "effect": "获得个随机龙魂。",
+    "image": "https://apexlol.info/images/hextech/omnisoul.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/omnisoul.webp"
+  },
+  {
+    "id": 1066,
+    "name": "量子计算",
+    "quality": "棱彩",
+    "effect": "周期性地自动施放一次巨型斩击。被击中的敌人会被减速，受到额外最大生命值伤害，并且治疗你。",
+    "image": "https://apexlol.info/images/hextech/quantumcomputing.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/quantumcomputing.webp"
+  },
+  {
+    "id": 1075,
+    "name": "慢炖",
+    "quality": "棱彩",
+    "effect": "每一秒，对附近的敌方英雄们施加一层可无限叠加的灼烧，在秒的持续时间里每秒造成魔法伤害。",
+    "image": "https://apexlol.info/images/hextech/slowcooker.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/slowcooker.webp"
+  },
+  {
+    "id": 1079,
+    "name": "战争交响乐",
+    "quality": "棱彩",
+    "effect": "获得致命节奏和征服者基石符文。\n\n致命节奏 - 攻击英雄提供攻击速度，至多叠加6层。在6层时，你的攻击发射造成额外伤害的一个弩箭。\n\n征服者：攻击敌方英雄时提供适应之力层数。在达到层后，将你的一部分伤害转化为等额的治疗效果。",
+    "image": "https://apexlol.info/images/hextech/symphonyofwar.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/symphonyofwar.webp"
+  },
+  {
+    "id": 1081,
+    "name": "踢踏舞",
+    "quality": "棱彩",
+    "effect": "你的攻击会为你提供移动速度。基于你的移动速度获得攻击速度。",
+    "image": "https://apexlol.info/images/hextech/tapdancer.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/tapdancer.webp"
+  },
+  {
+    "id": 1086,
+    "name": "精准奇才",
+    "quality": "棱彩",
+    "effect": "在你从码外对一名敌人造成伤害时， 发射一道精准弹幕，造成魔法伤害。每个目标秒冷却时间。",
+    "image": "https://apexlol.info/images/hextech/trueshotprodigy.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/trueshotprodigy.webp"
+  },
+  {
+    "id": 1088,
+    "name": "终极刷新",
+    "quality": "棱彩",
+    "effect": "在施放终极技能后刷新你的终极技能(秒冷却时间或阵亡时重置)。",
+    "image": "https://apexlol.info/images/hextech/ultimaterevolution.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/ultimaterevolution.webp"
+  },
+  {
+    "id": 1095,
+    "name": "风语者的祝福",
+    "quality": "棱彩",
+    "effect": "你的治疗效果和护盾效果还会提升目标的护甲和魔法抗性，这些加成持续3秒。",
+    "image": "https://apexlol.info/images/hextech/windspeakersblessing.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/windspeakersblessing.webp"
+  },
+  {
+    "id": 1115,
+    "name": "最万用的瞄准镜",
+    "quality": "棱彩",
+    "effect": "获得攻击距离，如果你是远程英雄则降低至攻击距离。",
+    "image": "https://apexlol.info/images/hextech/scopiestweapons.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/scopiestweapons.webp"
+  },
+  {
+    "id": 1134,
+    "name": "亮出你的剑",
+    "quality": "棱彩",
+    "effect": "变为近战状态，并且获得攻击力、生命值、攻击速度、生命偷取和移动速度 (每个属性都基于舍弃的攻击距离而进一步提升)。",
+    "image": "https://apexlol.info/images/hextech/drawyoursword.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/drawyoursword.webp"
+  },
+  {
+    "id": 1154,
+    "name": "任务：海牛阿福的勇士",
+    "quality": "棱彩",
+    "effect": "需求：参与击杀次。\n\n奖励：金铲铲",
+    "image": "https://apexlol.info/images/hextech/quest-urfschampion.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/quest-urfschampion.webp"
+  },
+  {
+    "id": 1156,
+    "name": "任务：沃格勒特的巫师帽",
+    "quality": "棱彩",
+    "effect": "立刻：获得无用大棒。\n\n需求：持有灭世者的死亡之帽和中娅沙漏。\n\n奖励:获得沃格勒特的巫师帽。",
+    "image": "https://apexlol.info/images/hextech/quest-woogletswitchcap.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/quest-woogletswitchcap.webp"
+  },
+  {
+    "id": 1194,
+    "name": "精怪魔法",
+    "quality": "棱彩",
+    "effect": "你的终极技能的伤害会对敌人造成持续若干秒的变形效果。",
+    "image": "https://apexlol.info/images/hextech/feymagic.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/feymagic.webp"
+  },
+  {
+    "id": 1195,
+    "name": "巨人杀手",
+    "quality": "棱彩",
+    "effect": "体型变小，获得移动速度，并基于敌方英雄体型大于你的程度获得额外伤害。",
+    "image": "https://apexlol.info/images/hextech/giantslayer.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/giantslayer.webp"
+  },
+  {
+    "id": 1220,
+    "name": "连拨击锤",
+    "quality": "棱彩",
+    "effect": "对敌方英雄的攻击会发射个额外爆竹，造成随距离提升的额外伤害。每个方向的冷却时间独立计算。",
+    "image": "https://apexlol.info/images/hextech/fanthehammer.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/fanthehammer.webp"
+  },
+  {
+    "id": 1225,
+    "name": "双刀流",
+    "quality": "棱彩",
+    "effect": "在攻击时，发射一个箭矢，它施加效能削减的。获得总攻击速度。",
+    "image": "https://apexlol.info/images/hextech/dualwield.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/dualwield.webp"
+  },
+  {
+    "id": 1243,
+    "name": "质变：混沌",
+    "quality": "棱彩",
+    "effect": "获得个随机强化符文。",
+    "image": "https://apexlol.info/images/hextech/transmutechaos.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/transmutechaos.webp"
+  },
+  {
+    "id": 1310,
+    "name": "小丑学院",
+    "quality": "棱彩",
+    "effect": "获得召唤师技能欺诈魔术。\n\n欺诈魔术：你传送并变为隐形。你在隐形状态下的下一次攻击造成额外物理伤害。在你阵亡时，生成一个爆炸盒子来对附近的敌人们造成大量魔法伤害和恐惧。",
+    "image": "https://apexlol.info/images/hextech/clowncollege.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/clowncollege.webp"
+  },
+  {
+    "id": 1321,
+    "name": "砍伤",
+    "quality": "棱彩",
+    "effect": "获得攻击速度。造成真实伤害 攻击附伤，受益于你的护甲。",
+    "image": "https://apexlol.info/images/hextech/darksteeltalons.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/darksteeltalons.webp"
+  },
+  {
+    "id": 1323,
+    "name": "残忍",
+    "quality": "棱彩",
+    "effect": "定身或缚地一个英雄时，召唤一颗会在短暂延迟后着陆的彗星，对附近的敌人们造成魔法伤害。",
+    "image": "https://apexlol.info/images/hextech/cruelty.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/cruelty.webp"
+  },
+  {
+    "id": 1324,
+    "name": "蛋白粉奶昔",
+    "quality": "棱彩",
+    "effect": "获得治疗和护盾强度，基于额外护甲和魔抗。",
+    "image": "https://apexlol.info/images/hextech/proteinshake.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/proteinshake.webp"
+  },
+  {
+    "id": 1325,
+    "name": "玻璃大炮",
+    "quality": "棱彩",
+    "effect": "减少最大生命值。造成额外的真实伤害。",
+    "image": "https://apexlol.info/images/hextech/glasscannon.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/glasscannon.webp"
+  },
+  {
+    "id": 1329,
+    "name": "史上最大雪球",
+    "quality": "棱彩",
+    "effect": "你的雪球获得技能急速。\n\n你的雪球现在变得非常大，并且可以穿过小兵。它会减速， 击飞英雄，并造成额外伤害。\n\n如果你没有雪球，则获得一个雪球。",
+    "image": "https://apexlol.info/images/hextech/biggestsnowballever.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/biggestsnowballever.webp"
+  },
+  {
+    "id": 1331,
+    "name": "至高天诺言",
+    "quality": "棱彩",
+    "effect": "获得治疗和护盾强度。获得至高天诺言作为一个召唤师技能。\n\n警惕\n\n传送至你的友军并在着陆时提供持续秒的护盾值。",
+    "image": "https://apexlol.info/images/hextech/empyreampromise.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/empyreampromise.webp"
+  },
+  {
+    "id": 1335,
+    "name": "夺金",
+    "quality": "棱彩",
+    "effect": "用攻击或技能对一个英雄造成伤害时会造成额外魔法伤害，并为你提供金币和 移动速度。",
+    "image": "https://apexlol.info/images/hextech/goldrend.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/goldrend.webp"
+  },
+  {
+    "id": 1337,
+    "name": "尊我为王",
+    "quality": "棱彩",
+    "effect": "当你第一次携带一件传说级装备并乘坐敌人的传送门时，你会加冕为王，升级你的装备并获得一个随机棱彩阶强化符文。",
+    "image": "https://apexlol.info/images/hextech/kingme.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/kingme.webp"
+  },
+  {
+    "id": 1339,
+    "name": "激光治疗",
+    "quality": "棱彩",
+    "effect": "施放一个持续2.5秒的治疗激光，治疗友军，使敌人减速并对其造成魔法伤害。",
+    "image": "https://apexlol.info/images/hextech/laseheal.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/laseheal.webp"
+  },
+  {
+    "id": 1340,
+    "name": "升级：米凯尔的祝福",
+    "quality": "棱彩",
+    "effect": "获得【米凯尔的祝福】。将【米凯尔的祝福】的冷却时间缩减至秒。\n\n使用【米凯尔的祝福】的主动效果时，对附近的友军施放一道光波，清除其限制和定身效果，回复生命值，并且提供持续秒的韧性。",
+    "image": "https://apexlol.info/images/hextech/upgrademikaelsblessing.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/upgrademikaelsblessing.webp"
+  },
+  {
+    "id": 1343,
+    "name": "王中王，靴中靴",
+    "quality": "棱彩",
+    "effect": "即刻：随机获得一双升级后的靴子。\n\n需求：完成其任务，以更换为另一双。\n\n奖励：嘉文一世之靴",
+    "image": "https://apexlol.info/images/hextech/sneakerhead.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/sneakerhead.webp"
+  },
+  {
+    "id": 1344,
+    "name": "最终形态",
+    "quality": "棱彩",
+    "effect": "在施放你的终极技能时，获得持续秒的最大生命值护盾、全能吸血和移动速度。",
+    "image": "https://apexlol.info/images/hextech/finalform.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/finalform.webp"
+  },
+  {
+    "id": 1349,
+    "name": "终极唤醒",
+    "quality": "棱彩",
+    "effect": "获得终极技能急速。\n\n在施放你的终极技能后，刷新你的所有基础技能并获得持续秒的基础技能急速。(秒冷却时间)",
+    "image": "https://apexlol.info/images/hextech/zerohour.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/zerohour.webp"
+  },
+  {
+    "id": 1361,
+    "name": "任务：艾卡西亚的陷落",
+    "quality": "棱彩",
+    "effect": "即刻：获得1个【斑比的熔渣】。\n\n任务：持有日炎圣盾和 璀璨回响。\n\n奖励：将它们合成为虚空献祭。",
+    "image": "https://apexlol.info/images/hextech/quest-voidimmolation.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/quest-voidimmolation.webp"
+  },
+  {
+    "id": 1372,
+    "name": "小猫咪找妈妈",
+    "quality": "棱彩",
+    "effect": "站在一个友军的附近并将其标记为你的妈妈。\n\n当朝着妈妈移动时，获得移动速度。当靠近你的妈妈时，获得移动速度、治疗和护盾强度。",
+    "image": "https://apexlol.info/images/hextech/babykitty.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/babykitty.webp"
+  },
+  {
+    "id": 1379,
+    "name": "升级：花晓之剑",
+    "quality": "棱彩",
+    "effect": "获得【米凯尔的祝福】。将【米凯尔的祝福】的冷却时间缩减至秒。\n\n使用【米凯尔的祝福】的主动效果时，对附近的友军施放一道光波，清除其限制和定身效果，回复生命值，并且提供持续秒的韧性。",
+    "image": "https://apexlol.info/images/hextech/upgrademikaelsblessing.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/upgrademikaelsblessing.webp"
+  },
+  {
+    "id": 1388,
+    "name": "无限循环往复",
+    "quality": "棱彩",
+    "effect": "获得技能急速，外加每次参与击杀技能急速。",
+    "image": "https://apexlol.info/images/hextech/infiniterecursion.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/infiniterecursion.webp"
+  },
+  {
+    "id": 1389,
+    "name": "男爵之手",
+    "quality": "棱彩",
+    "effect": "获得适应之力。附近友方小兵都获得极大增强。",
+    "image": "https://apexlol.info/images/hextech/handofbaron.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/handofbaron.webp"
+  },
+  {
+    "id": 1392,
+    "name": "神圣雪球",
+    "quality": "棱彩",
+    "effect": "雪球获得技能急速。\n\n你在用【雪球】冲刺后短暂免疫伤害。\n\n如果你没有雪球，获得一个雪球。",
+    "image": "https://apexlol.info/images/hextech/goldensnowball.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/goldensnowball.webp"
+  },
+  {
+    "id": 1397,
+    "name": "地狱三头犬",
+    "quality": "棱彩",
+    "effect": "获得丛刃和强攻基石符文。",
+    "image": "https://apexlol.info/images/hextech/cerberus.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/cerberus.webp"
+  },
+  {
+    "id": 1402,
+    "name": "属性叠属性叠属性！",
+    "quality": "棱彩",
+    "effect": "获得个【属性锻造器】，有更高几率出现黄金阶和棱彩阶锻造器！\n\n在你的下一次强化符文选取时，每个栏位获得一次额外的刷新。",
+    "image": "https://apexlol.info/images/hextech/statsonstatsonstats.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/statsonstatsonstats.webp"
+  },
+  {
+    "id": 1413,
+    "name": "和我一起困在这里",
+    "quality": "棱彩",
+    "effect": "使用你的终极技能时会嘲讽附近的敌人们并提供给你伤害减免。",
+    "image": "https://apexlol.info/images/hextech/stuckinherewithme.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/stuckinherewithme.webp"
+  },
+  {
+    "id": 1421,
+    "name": "舞会女王",
+    "quality": "棱彩",
+    "effect": "每秒，自动施放一道闪亮宝冠降临在你头上。当它着陆时，获得洛的终极技能，魅惑你碰到的敌人们。",
+    "image": "https://apexlol.info/images/hextech/promqueen.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/promqueen.webp"
+  },
+  {
+    "id": 2001,
+    "name": "当心小蛋糕！",
+    "quality": "棱彩",
+    "effect": "小蛋糕将间歇性地飞越整个大桥。小蛋糕会提供金币给接住它的人，并对第一个命中的英雄及其附近的友军回复生命值。获得基于该治疗数额的金币。",
+    "image": "https://apexlol.info/images/hextech/watchoutgrapefruit.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/watchoutgrapefruit.webp"
+  },
+  {
+    "id": 2002,
+    "name": "虚空裂隙",
+    "quality": "棱彩",
+    "effect": "用技能对敌人造成伤害时，会制造一道虚空裂痕。如果附近有另一道虚空裂痕，则它们都会被消耗，以在它们之间生成一道裂隙，对其中的敌人们造成魔法伤害和减速。",
+    "image": "https://apexlol.info/images/hextech/voidrift.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/voidrift.webp"
+  },
+  {
+    "id": 2003,
+    "name": "魄罗之王的弹跳",
+    "quality": "棱彩",
+    "effect": "获得魄罗之王的弹跳！\n\n魄罗之王的弹跳：变身为【魄罗之王】并反复弹跳，造成物理伤害并击退 附近的敌人们。",
+    "image": "https://apexlol.info/images/hextech/poroking.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/poroking.webp"
+  },
+  {
+    "id": 2004,
+    "name": "信念者的强化",
+    "quality": "棱彩",
+    "effect": "为友军提供治疗或护盾会赐福他们，使其伤害填充你的虔诚。\n\n当你拥有足够的虔诚时，释放一道冲击波来造成魔法伤害并处决低生命值的敌人们。",
+    "image": "https://apexlol.info/images/hextech/empoweredbythefaithful.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/empoweredbythefaithful.webp"
+  },
+  {
+    "id": 2005,
+    "name": "科学狂人",
+    "quality": "棱彩",
+    "effect": "每次重生时，你的体型要么变大(获得适应之力和生命值)，要么变小(获得技能急速和移动速度)。",
+    "image": "https://apexlol.info/images/hextech/madscientist.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/madscientist.webp"
+  },
+  {
+    "id": 2006,
+    "name": "飞身踢",
+    "quality": "棱彩",
+    "effect": "你的攻击会处决低生命值的敌方英雄，从而击退并引发一次爆炸，同时治疗你自身。",
+    "image": "https://apexlol.info/images/hextech/dropkick.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/dropkick.webp"
+  },
+  {
+    "id": 2007,
+    "name": "你肩上的恶魔",
+    "quality": "棱彩",
+    "effect": "与【大魔王】本尊签订一个契约。\n\n他持续汲取你的生命力，但回报给你力量，让你对英雄造成额外真实伤害并且创造治疗残片供你获取。",
+    "image": "https://apexlol.info/images/hextech/littledevil.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/littledevil.webp"
+  },
+  {
+    "id": 12317,
+    "name": "潘朵拉的盒子",
+    "quality": "棱彩",
+    "effect": "将你的所有强化符文变为随机的棱彩阶强化符文。",
+    "image": "https://apexlol.info/images/hextech/pandoras-box.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/pandoras-box.webp"
+  },
+  {
+    "id": 32,
+    "name": "裁决使",
+    "quality": "白银",
+    "effect": "对生命值低于的敌人们多造成伤害。在参与击杀后重置你的基础技能。",
+    "image": "https://apexlol.info/images/hextech/executioner.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/executioner.webp"
+  },
+  {
+    "id": 91,
+    "name": "良性循环",
+    "quality": "白银",
+    "effect": "你的治疗效果提供额外的护盾，而你的护盾提供额外的治疗效果。",
+    "image": "https://apexlol.info/images/hextech/virtuouscycle.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/virtuouscycle.webp"
+  },
+  {
+    "id": 1007,
+    "name": "大力",
+    "quality": "白银",
+    "effect": "获得攻击力。",
+    "image": "https://apexlol.info/images/hextech/bluntforce.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/bluntforce.webp"
+  },
+  {
+    "id": 1009,
+    "name": "霸符兄弟",
+    "quality": "白银",
+    "effect": "你获得余烬之冠和洞悉之冠。\n\n为你自己提供技能急速和施法资源回复并使你的攻击对敌方英雄造成灼烧和减速。",
+    "image": "https://apexlol.info/images/hextech/buffbuddies.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/buffbuddies.webp"
+  },
+  {
+    "id": 1022,
+    "name": "灵巧",
+    "quality": "白银",
+    "effect": "获得攻击速度。",
+    "image": "https://apexlol.info/images/hextech/deft.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/deft.webp"
+  },
+  {
+    "id": 1025,
+    "name": "俯冲轰炸",
+    "quality": "白银",
+    "effect": "在你阵亡时爆炸，造成巨量真实伤害。",
+    "image": "https://apexlol.info/images/hextech/divebomber.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/divebomber.webp"
+  },
+  {
+    "id": 1026,
+    "name": "唯快不破",
+    "quality": "白银",
+    "effect": "你每比目标多10移动速度，就会获得额外伤害。",
+    "image": "https://apexlol.info/images/hextech/dontblink.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/dontblink.webp"
+  },
+  {
+    "id": 1028,
+    "name": "侵蚀",
+    "quality": "白银",
+    "effect": "对敌人造成伤害时会施加一层持续秒且可叠加的护甲和魔法抗性击碎效果。",
+    "image": "https://apexlol.info/images/hextech/erosion.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/erosion.webp"
+  },
+  {
+    "id": 1037,
+    "name": "急救用具",
+    "quality": "白银",
+    "effect": "获得治疗和护盾强度。",
+    "image": "https://apexlol.info/images/hextech/firstaidkit.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/firstaidkit.webp"
+  },
+  {
+    "id": 1039,
+    "name": "冰霜 幽灵",
+    "quality": "白银",
+    "effect": "每秒，自动施放秒禁锢给附近的敌人们。",
+    "image": "https://apexlol.info/images/hextech/frostwraith.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/frostwraith.webp"
+  },
+  {
+    "id": 1042,
+    "name": "恶趣味",
+    "quality": "白银",
+    "effect": "定身或缚地敌方英雄时回复生命值。",
+    "image": "https://apexlol.info/images/hextech/guiltypleasure.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/guiltypleasure.webp"
+  },
+  {
+    "id": 1044,
+    "name": "冰寒",
+    "quality": "白银",
+    "effect": "你的减速效果可使移动速度降低额外的。",
+    "image": "https://apexlol.info/images/hextech/icecold.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/icecold.webp"
+  },
+  {
+    "id": 1046,
+    "name": "炼狱龙魂",
+    "quality": "白银",
+    "effect": "你获得炼狱龙魂，使用技能或攻击命中敌人时造成额外伤害。",
+    "image": "https://apexlol.info/images/hextech/infernalsoul.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/infernalsoul.webp"
+  },
+  {
+    "id": 1051,
+    "name": "点亮他们！",
+    "quality": "白银",
+    "effect": "每第4次攻击发射4个爆竹以造成魔法伤害。",
+    "image": "https://apexlol.info/images/hextech/lightemup.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/lightemup.webp"
+  },
+  {
+    "id": 1056,
+    "name": "由心及物",
+    "quality": "白银",
+    "effect": "使你的最大生命值提升，数额相当于你一半的法力值。",
+    "image": "https://apexlol.info/images/hextech/mindtomatter.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/mindtomatter.webp"
+  },
+  {
+    "id": 1057,
+    "name": "山脉龙魂",
+    "quality": "白银",
+    "effect": "你获得山脉龙魂，在脱离战斗之后获得一个持续一小段时间的护盾。",
+    "image": "https://apexlol.info/images/hextech/mountainsoul.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/mountainsoul.webp"
+  },
+  {
+    "id": 1060,
+    "name": "海洋龙魂",
+    "quality": "白银",
+    "effect": "获得【海洋龙魂】，在对敌方英雄造成伤害后提供高额的生命和法力回复。",
+    "image": "https://apexlol.info/images/hextech/oceansoul.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/oceansoul.webp"
+  },
+  {
+    "id": 1069,
+    "name": "退敌力场",
+    "quality": "白银",
+    "effect": "在你跌下生命值时，对附近的敌人们造成击退和减速。",
+    "image": "https://apexlol.info/images/hextech/repulsor.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/repulsor.webp"
+  },
+  {
+    "id": 1073,
+    "name": "暗影疾奔",
+    "quality": "白银",
+    "effect": "在使用一个冲刺、闪烁或传送类技能或离开潜行状态之后，获得移动速度。",
+    "image": "https://apexlol.info/images/hextech/shadowrunner.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/shadowrunner.webp"
+  },
+  {
+    "id": 1076,
+    "name": "天音爆",
+    "quality": "白银",
+    "effect": "在为你的友军提供增益效果、治疗效果或护盾效果时，会对其附近的敌人们造成伤害和减速。",
+    "image": "https://apexlol.info/images/hextech/sonicboom.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/sonicboom.webp"
+  },
+  {
+    "id": 1080,
+    "name": "会心防御",
+    "quality": "白银",
+    "effect": "你可以使用你的暴击几率(最大几率)来进行会心防御，使你有一定几率来使所受伤害降低。获得暴击几率。",
+    "image": "https://apexlol.info/images/hextech/tankitorleaveit.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/tankitorleaveit.webp"
+  },
+  {
+    "id": 1082,
+    "name": "残暴之力",
+    "quality": "白银",
+    "effect": "获得攻击力、技能急速和穿甲。",
+    "image": "https://apexlol.info/images/hextech/thebrutalizer.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/thebrutalizer.webp"
+  },
+  {
+    "id": 1085,
+    "name": "折磨者",
+    "quality": "白银",
+    "effect": "定身或缚地敌方英雄时还会施加一层灼烧，秒的持续时间里每秒持续造成最大生命值的魔法伤害。灼烧可无限叠加。",
+    "image": "https://apexlol.info/images/hextech/tormentor.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/tormentor.webp"
+  },
+  {
+    "id": 1087,
+    "name": "台风",
+    "quality": "白银",
+    "effect": "你的攻击会对一个额外目标发射一个爆竹，这个爆竹会造成削减过的伤害并施加。",
+    "image": "https://apexlol.info/images/hextech/typhoon.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/typhoon.webp"
+  },
+  {
+    "id": 1097,
+    "name": "巫师式思考",
+    "quality": "白银",
+    "effect": "获得法术强度。",
+    "image": "https://apexlol.info/images/hextech/witchfulthinking.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/witchfulthinking.webp"
+  },
+  {
+    "id": 1105,
+    "name": "家园卫士",
+    "quality": "白银",
+    "effect": "获得移动速度，在受到伤害后失效秒。",
+    "image": "https://apexlol.info/images/hextech/homeguard.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/homeguard.webp"
+  },
+  {
+    "id": 1108,
+    "name": "自我毁灭",
+    "quality": "白银",
+    "effect": "每秒，在你身上黏附一个炸弹。在秒后，它会爆炸，对敌人们造成真实伤害和击飞效果。",
+    "image": "https://apexlol.info/images/hextech/selfdestruct.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/selfdestruct.webp"
+  },
+  {
+    "id": 1112,
+    "name": "终极不可阻挡",
+    "quality": "白银",
+    "effect": "在你使用你的终极技能后，你获得持续秒的控制免疫。 (秒冷却时间)。",
+    "image": "https://apexlol.info/images/hextech/ultimateunstoppable.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/ultimateunstoppable.webp"
+  },
+  {
+    "id": 1136,
+    "name": "扇巴掌",
+    "quality": "白银",
+    "effect": "每当你定身或缚地一个敌人时，获得适应之力。阵亡时损失。",
+    "image": "https://apexlol.info/images/hextech/slaparound.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/slaparound.webp"
+  },
+  {
+    "id": 1138,
+    "name": "渴血",
+    "quality": "白银",
+    "effect": "获得全能吸血。",
+    "image": "https://apexlol.info/images/hextech/goredrink.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/goredrink.webp"
+  },
+  {
+    "id": 1170,
+    "name": "万用瞄准镜",
+    "quality": "白银",
+    "effect": "获得攻击距离，如果你是远程英雄则降低至攻击距离。",
+    "image": "https://apexlol.info/images/hextech/scopedweapons.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/scopedweapons.webp"
+  },
+  {
+    "id": 1181,
+    "name": "重量级打击手",
+    "quality": "白银",
+    "effect": "你的攻击造成相当于你最大生命值的额外物理伤害。",
+    "image": "https://apexlol.info/images/hextech/heavyhitter.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/heavyhitter.webp"
+  },
+  {
+    "id": 1187,
+    "name": "闪光弹",
+    "quality": "白银",
+    "effect": "你的【闪现】会引发一次爆炸，造成伤害和减速（阵亡时重置）。",
+    "image": "https://apexlol.info/images/hextech/flashbang.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/flashbang.webp"
+  },
+  {
+    "id": 1204,
+    "name": "叠角龙",
+    "quality": "白银",
+    "effect": "在你获得一个技能的永久层数时，多获得！",
+    "image": "https://apexlol.info/images/hextech/stackosaurusrex.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/stackosaurusrex.webp"
+  },
+  {
+    "id": 1205,
+    "name": "物理转魔法",
+    "quality": "白银",
+    "effect": "将额外攻击力转化为法术强度。获得法术强度。",
+    "image": "https://apexlol.info/images/hextech/adapt.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/adapt.webp"
+  },
+  {
+    "id": 1206,
+    "name": "魔法转物理",
+    "quality": "白银",
+    "effect": "将法术强度转化为额外攻击力。获得攻击力。",
+    "image": "https://apexlol.info/images/hextech/escapade.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/escapade.webp"
+  },
+  {
+    "id": 1214,
+    "name": "旋转至胜",
+    "quality": "白银",
+    "effect": "你的旋转类技能获得技能急速并且多造成伤害。",
+    "image": "https://apexlol.info/images/hextech/spintowin.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/spintowin.webp"
+  },
+  {
+    "id": 1237,
+    "name": "质变：黄金阶",
+    "quality": "白银",
+    "effect": "获得1个随机黄金阶强化符文。",
+    "image": "https://apexlol.info/images/hextech/transmutegold.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/transmutegold.webp"
+  },
+  {
+    "id": 1305,
+    "name": "练腿日",
+    "quality": "白银",
+    "effect": "获得移动速度和减速抗性。",
+    "image": "https://apexlol.info/images/hextech/legday.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/legday.webp"
+  },
+  {
+    "id": 1314,
+    "name": "强力护盾",
+    "quality": "白银",
+    "effect": "当你获得护盾时，获得适应之力，持续秒。(秒冷却时间)",
+    "image": "https://apexlol.info/images/hextech/mightyshield.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/mightyshield.webp"
+  },
+  {
+    "id": 1315,
+    "name": "快中求稳",
+    "quality": "白银",
+    "effect": "在冲刺或闪烁后，获得持续秒的护盾值。 (秒冷却时间)",
+    "image": "https://apexlol.info/images/hextech/swiftandsafe.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/swiftandsafe.webp"
+  },
+  {
+    "id": 1316,
+    "name": "刃下生风",
+    "quality": "白银",
+    "effect": "你的护甲穿透和法术穿透越高，你就移动得越快。",
+    "image": "https://apexlol.info/images/hextech/windbeneathblade.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/windbeneathblade.webp"
+  },
+  {
+    "id": 1317,
+    "name": "升级：弯刀",
+    "quality": "白银",
+    "effect": "【幽魂弯刀】和【救生索】的冷却时间降低至秒。主动效果激活时，获得伤害增幅。\n\n获得250金币。",
+    "image": "https://apexlol.info/images/hextech/upgradecutlass.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/upgradecutlass.webp"
+  },
+  {
+    "id": 1318,
+    "name": "升级：中娅",
+    "quality": "白银",
+    "effect": "【中娅沙漏】的冷却时间降低至秒。你现在可以在【中娅沙漏】、【探索者的护臂】或【沃格勒特的巫师帽】凝滞状态持续期间移动并获得移动速度。\n\n获得250金币。",
+    "image": "https://apexlol.info/images/hextech/upgradezh.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/upgradezh.webp"
+  },
+  {
+    "id": 1319,
+    "name": "升级：献祭",
+    "quality": "白银",
+    "effect": "【璀璨回响】和【日炎圣盾】每当有目标受到【献祭】效果影响时，提供 金币。获得250金币。",
+    "image": "https://apexlol.info/images/hextech/upgradeimmolate.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/upgradeimmolate.webp"
+  },
+  {
+    "id": 1320,
+    "name": "升级：收集者",
+    "quality": "白银",
+    "effect": "使用【收集者】的被动处决敌人时的处决阈值提升，并且提供额外金币。\n\n获得250金币。",
+    "image": "https://apexlol.info/images/hextech/upgradecollector.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/upgradecollector.webp"
+  },
+  {
+    "id": 1327,
+    "name": "坚若磐石",
+    "quality": "白银",
+    "effect": "每当你定身或缚地一个敌人时，获得护甲和魔抗。",
+    "image": "https://apexlol.info/images/hextech/adamant.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/adamant.webp"
+  },
+  {
+    "id": 1330,
+    "name": "活力再生",
+    "quality": "白银",
+    "effect": "你的盈能攻击充能数会得到全额返还，如果目标与你前一次攻击的目标不是同一个。盈能攻击造成额外伤害。",
+    "image": "https://apexlol.info/images/hextech/mobiuscoil.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/mobiuscoil.webp"
+  },
+  {
+    "id": 1333,
+    "name": "逃跑计划",
+    "quality": "白银",
+    "effect": "在降至生命值时，获得巨量持续衰减的护盾、持续衰减的移动速度和持续衰减的缩小效果。",
+    "image": "https://apexlol.info/images/hextech/escapeplan.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/escapeplan.webp"
+  },
+  {
+    "id": 1341,
+    "name": "帽上加帽",
+    "quality": "白银",
+    "effect": "头戴式装备和帽子提供额外法术强度和魔法抗性。",
+    "image": "https://apexlol.info/images/hextech/hatonahat.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/hatonahat.webp"
+  },
+  {
+    "id": 1347,
+    "name": "吵闹鬼",
+    "quality": "白银",
+    "effect": "获得【吵闹鬼】作为一个召唤师技能。\n\n吵闹鬼会同时施放召唤师技能【屏障】和【幽灵疾步】。",
+    "image": "https://apexlol.info/images/hextech/poltergeist.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/poltergeist.webp"
+  },
+  {
+    "id": 1348,
+    "name": "闪闪现现",
+    "quality": "白银",
+    "effect": "获得第二个【闪现】召唤师技能和召唤师技能急速。",
+    "image": "https://apexlol.info/images/hextech/flash2.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/flash2.webp"
+  },
+  {
+    "id": 1386,
+    "name": "转得我眩晕了",
+    "quality": "白银",
+    "effect": "将一个召唤师技能替换为骄行荡寇。\n\n骄行荡寇发射一根钩爪，吸附在地形上，在此之后，你可以再次施放来绕着它摆荡。在摆荡状态下，自动攻击相距最近的那个敌人。在与一个敌方英雄碰撞或再次施放时结束摆荡。",
+    "image": "https://apexlol.info/images/hextech/youspinmerightround.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/youspinmerightround.webp"
+  },
+  {
+    "id": 1404,
+    "name": "属性！",
+    "quality": "白银",
+    "effect": "获得个【属性锻造器】，有更高几率出现黄金阶和棱彩阶锻造器！",
+    "image": "https://apexlol.info/images/hextech/stats.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/stats.webp"
+  },
+  {
+    "id": 1405,
+    "name": "速度恶魔",
+    "quality": "白银",
+    "effect": "用一个技能对一个敌方英雄造成伤害时，获得在秒里持续衰减的移动速度。",
+    "image": "https://apexlol.info/images/hextech/speeddemon.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/speeddemon.webp"
+  },
+  {
+    "id": 1411,
+    "name": "升级：荆棘之甲",
+    "quality": "白银",
+    "effect": "在脱离战斗秒后，你的【荆棘之甲】或【棘刺背心】会生成一个甲壳来回敬更多伤害给攻击者。",
+    "image": "https://apexlol.info/images/hextech/upgradecollector.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/upgradecollector.webp"
+  },
+  {
+    "id": 1415,
+    "name": "双生火焰",
+    "quality": "白银",
+    "effect": "造成技能伤害时，发射1+个爆竹，每个造成魔法伤害。\n\n此外，获得暴击几率。",
+    "image": "https://apexlol.info/images/hextech/twinfire.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/twinfire.webp"
+  },
+  {
+    "id": 1418,
+    "name": "砸开那颗蛋",
+    "quality": "白银",
+    "effect": "你的护盾值将在到期时爆炸。",
+    "image": "https://apexlol.info/images/hextech/crackopenthategg.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/crackopenthategg.webp"
+  },
+  {
+    "id": 2008,
+    "name": "负重爆气",
+    "quality": "白银",
+    "effect": "用技能击中敌人时，会为你提供【爆气】层数，从而缩短你的非终极技能冷却时间。",
+    "image": "https://apexlol.info/images/hextech/weightedpopoffs.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/weightedpopoffs.webp"
+  },
+  {
+    "id": 2009,
+    "name": "狂热者",
+    "quality": "白银",
+    "effect": "获得暴击几率和攻击速度（随法术强度变化）。",
+    "image": "https://apexlol.info/images/hextech/zealot.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/zealot.webp"
+  },
+  {
+    "id": 2016,
+    "name": "注魔",
+    "quality": "白银",
+    "effect": "攻击特效消耗法力值以造成魔法伤害，这个伤害可以暴击。",
+    "image": "https://apexlol.info/images/hextech/juiced.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/juiced.webp"
+  },
+  {
+    "id": 2018,
+    "name": "纯粹主义者 - 术师",
+    "quality": "白银",
+    "effect": "获得百分比冷却缩减并将你的所有攻击速度转化为技能急速。",
+    "image": "https://apexlol.info/images/hextech/puristcaster.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/puristcaster.webp"
+  },
+  {
+    "id": 2024,
+    "name": "由暴生急",
+    "quality": "白银",
+    "effect": "获得相当于你暴击几率的技能急速。",
+    "image": "https://apexlol.info/images/hextech/critncast.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/critncast.webp"
+  },
+  {
+    "id": 2026,
+    "name": "杀意翻涌",
+    "quality": "白银",
+    "effect": "在朝着低生命值的敌人时，获得额外移动速度。",
+    "image": "https://apexlol.info/images/hextech/killsecure.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/killsecure.webp"
+  },
+  {
+    "id": 1002,
+    "name": "尖端发明家",
+    "quality": "黄金",
+    "effect": "获得装备急速(相当于装备冷却缩减)。\n\n装备急速可缩减所有装备技能的冷却时间。",
+    "image": "https://apexlol.info/images/hextech/apexinventor.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/apexinventor.webp"
+  },
+  {
+    "id": 1013,
+    "name": "星界躯体",
+    "quality": "黄金",
+    "effect": "获得生命值，但你造成的伤害降低。",
+    "image": "https://apexlol.info/images/hextech/celestialbody.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/celestialbody.webp"
+  },
+  {
+    "id": 1020,
+    "name": "黎明使者的坚决",
+    "quality": "黄金",
+    "effect": "在跌到生命值以下时，在3秒里持续回复共最大生命值。\n\n阵亡时或每秒重置。",
+    "image": "https://apexlol.info/images/hextech/dawnbringersresolve.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/dawnbringersresolve.webp"
+  },
+  {
+    "id": 1023,
+    "name": "魔鬼之舞",
+    "quality": "黄金",
+    "effect": "获得迅捷步法和不灭之握基石符文。\n\n迅捷步法：攻击和移动会积攒能量层数。在100层时，你的下次攻击会治疗你并提升移动速度。不灭之握：每层，你对一个英雄发起的下一次普攻将会造成额外魔法伤害、治疗你、并永久提升你的生命值。",
+    "image": "https://apexlol.info/images/hextech/demonsdance.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/demonsdance.webp"
+  },
+  {
+    "id": 1029,
+    "name": "虚幻武器",
+    "quality": "黄金",
+    "effect": "你的技能可施加。每个目标有1秒冷却时间。",
+    "image": "https://apexlol.info/images/hextech/etherealweapon.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/etherealweapon.webp"
+  },
+  {
+    "id": 1032,
+    "name": "心灵净化",
+    "quality": "黄金",
+    "effect": "参与击杀时，产生一次爆炸，对附近其它敌人们造成减速，并且造成基于他们当前生命值的伤害。",
+    "image": "https://apexlol.info/images/hextech/spiritualpurification.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/spiritualpurification.webp"
+  },
+  {
+    "id": 1036,
+    "name": "火上浇油",
+    "quality": "黄金",
+    "effect": "你的攻击还会灼烧敌人，在秒的持续时间里每秒持续造成最大生命值的魔法伤害。这个灼烧可无限叠加。",
+    "image": "https://apexlol.info/images/hextech/firebrand.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/firebrand.webp"
+  },
+  {
+    "id": 1038,
+    "name": "有始有终",
+    "quality": "黄金",
+    "effect": "获得先攻和黑暗收割基石符文。\n\n先攻：当你率先进入英雄战斗后，在秒内可以造成额外伤害，并且基于造成的伤害获得金币。\n\n黑暗收割：伤害一名低生命值的英雄时会造成自适应伤害并从该猎物身上收割灵魂。",
+    "image": "https://apexlol.info/images/hextech/frombeginningtoend.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/frombeginningtoend.webp"
+  },
+  {
+    "id": 1047,
+    "name": "关键暴击",
+    "quality": "黄金",
+    "effect": "获得暴击几率。",
+    "image": "https://apexlol.info/images/hextech/itscritical.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/itscritical.webp"
+  },
+  {
+    "id": 1050,
+    "name": "基石法师",
+    "quality": "黄金",
+    "effect": "获得召唤：艾黎和奥术彗星基石符文。\n\n召唤：艾黎：你的攻击和技能会向目标派出艾黎，来对敌方英雄造成伤害或为友方英雄套上护盾。奥术彗星：用一个技能对一名英雄造成伤害时，会在其位置处召唤一颗彗星。",
+    "image": "https://apexlol.info/images/hextech/keystoneconjurer.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/keystoneconjurer.webp"
+  },
+  {
+    "id": 1052,
+    "name": "闪电打击",
+    "quality": "黄金",
+    "effect": "获得总攻击速度。\n\n在攻击次数/秒时，造成额外的魔法伤害。",
+    "image": "https://apexlol.info/images/hextech/lightningstrikes.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/lightningstrikes.webp"
+  },
+  {
+    "id": 1061,
+    "name": "回力OK镖",
+    "quality": "黄金",
+    "effect": "每秒朝着一个附近的敌人自动施放投掷一个回力镖，对命中的敌人们造成自适应伤害。",
+    "image": "https://apexlol.info/images/hextech/okboomerang.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/okboomerang.webp"
+  },
+  {
+    "id": 1063,
+    "name": "狂徒豪气",
+    "quality": "黄金",
+    "effect": "在使用一次冲刺、闪烁或传送之后，你获得护甲和魔法抗性，这个效果至多可叠加至层。",
+    "image": "https://apexlol.info/images/hextech/outlawsgrit.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/outlawsgrit.webp"
+  },
+  {
+    "id": 1064,
+    "name": "坚韧",
+    "quality": "黄金",
+    "effect": "获得基础生命回复，在低于25%生命值时提升至基础生命回复。",
+    "image": "https://apexlol.info/images/hextech/perseverance.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/perseverance.webp"
+  },
+  {
+    "id": 1067,
+    "name": "古式佳酿",
+    "quality": "黄金",
+    "effect": "使用一个技能时会回复生命值。",
+    "image": "https://apexlol.info/images/hextech/rabblerousing.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/rabblerousing.webp"
+  },
+  {
+    "id": 1068,
+    "name": "循环往复",
+    "quality": "黄金",
+    "effect": "获得技能急速。",
+    "image": "https://apexlol.info/images/hextech/recursion.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/recursion.webp"
+  },
+  {
+    "id": 1070,
+    "name": "无休回复",
+    "quality": "黄金",
+    "effect": "你在移动时持续获得治疗。",
+    "image": "https://apexlol.info/images/hextech/restlessrestoration.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/restlessrestoration.webp"
+  },
+  {
+    "id": 1071,
+    "name": "更万用的瞄准镜",
+    "quality": "黄金",
+    "effect": "获得攻击距离，如果你是远程英雄则降低至攻击距离。",
+    "image": "https://apexlol.info/images/hextech/scopierweapons.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/scopierweapons.webp"
+  },
+  {
+    "id": 1072,
+    "name": "炽烈黎明",
+    "quality": "黄金",
+    "effect": "你的技能会标记敌人，使其在被你的友军的下一个攻击或技能命中时会受到额外魔法伤害。",
+    "image": "https://apexlol.info/images/hextech/searingdawn.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/searingdawn.webp"
+  },
+  {
+    "id": 1074,
+    "name": "缩小射线",
+    "quality": "黄金",
+    "effect": "你的攻击会对敌人造成持续3秒的伤害削减效果。",
+    "image": "https://apexlol.info/images/hextech/shrinkray.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/shrinkray.webp"
+  },
+  {
+    "id": 1077,
+    "name": "灵魂虹吸",
+    "quality": "黄金",
+    "effect": "获得暴击几率和作用于暴击的生命偷取。",
+    "image": "https://apexlol.info/images/hextech/soulsiphon.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/soulsiphon.webp"
+  },
+  {
+    "id": 1084,
+    "name": "穿针引线",
+    "quality": "黄金",
+    "effect": "获得护甲穿透和法术穿透。",
+    "image": "https://apexlol.info/images/hextech/threadtheneedle.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/threadtheneedle.webp"
+  },
+  {
+    "id": 1092,
+    "name": "易损",
+    "quality": "黄金",
+    "effect": "你的装备效果和持续伤害效果可以暴击来造成额外伤害。\n\n获得暴击几率。",
+    "image": "https://apexlol.info/images/hextech/vulnerability.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/vulnerability.webp"
+  },
+  {
+    "id": 1098,
+    "name": "急急小子",
+    "quality": "黄金",
+    "effect": "获得移动速度，相当于你的技能急速。",
+    "image": "https://apexlol.info/images/hextech/withhaste.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/withhaste.webp"
+  },
+  {
+    "id": 1103,
+    "name": "面包和黄油",
+    "quality": "黄金",
+    "effect": "你的获得技能急速。",
+    "image": "https://apexlol.info/images/hextech/breadandbutter.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/breadandbutter.webp"
+  },
+  {
+    "id": 1104,
+    "name": "仆从大师",
+    "quality": "黄金",
+    "effect": "你的召唤物获得体型提升、生命值和伤害。",
+    "image": "https://apexlol.info/images/hextech/minionmancer.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/minionmancer.webp"
+  },
+  {
+    "id": 1107,
+    "name": "接二连三",
+    "quality": "黄金",
+    "effect": "每次攻击，你的效果会触发第二次。",
+    "image": "https://apexlol.info/images/hextech/twicethrice.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/twicethrice.webp"
+  },
+  {
+    "id": 1113,
+    "name": "老练狙神",
+    "quality": "黄金",
+    "effect": "用一个非终极技能命中一个远处的敌人时，返还该技能冷却时间(周期性技能返还)。",
+    "image": "https://apexlol.info/images/hextech/skilledsniper.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/skilledsniper.webp"
+  },
+  {
+    "id": 1116,
+    "name": "闪现向前",
+    "quality": "黄金",
+    "effect": "你的闪现有层充能。在秒后，再次获得所有充能。",
+    "image": "https://apexlol.info/images/hextech/flashy.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/flashy.webp"
+  },
+  {
+    "id": 1118,
+    "name": "会心治疗",
+    "quality": "黄金",
+    "effect": "你的治疗和护盾可以暴击，造成额外数额的效果。获得暴击几率。",
+    "image": "https://apexlol.info/images/hextech/criticalhealing.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/criticalhealing.webp"
+  },
+  {
+    "id": 1129,
+    "name": "神射法师",
+    "quality": "黄金",
+    "effect": "你的攻击造成额外物理伤害。",
+    "image": "https://apexlol.info/images/hextech/marksmage.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/marksmage.webp"
+  },
+  {
+    "id": 1133,
+    "name": "魔法飞弹",
+    "quality": "黄金",
+    "effect": "造成技能伤害会对其发射个爆竹，每个爆竹基于飞行距离造成百分比最大生命值的真实伤害。",
+    "image": "https://apexlol.info/images/hextech/magicmissile.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/magicmissile.webp"
+  },
+  {
+    "id": 1141,
+    "name": "全心为你",
+    "quality": "黄金",
+    "effect": "你的治疗和护盾在用在一个友军身上时会变强。",
+    "image": "https://apexlol.info/images/hextech/allforyou.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/allforyou.webp"
+  },
+  {
+    "id": 1149,
+    "name": "不动如山",
+    "quality": "黄金",
+    "effect": "获得余震和冰川增幅基石符文。\n\n余震：在你定身一个敌方英雄后提供防御属性，稍后会在你的周围造成爆发性的魔法伤害。冰川增幅：定身一名敌方英雄时会生成道冰川射线来减速附近的敌人们并降低他们对你的队友们的伤害。",
+    "image": "https://apexlol.info/images/hextech/impassable.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/impassable.webp"
+  },
+  {
+    "id": 1150,
+    "name": "面包和果酱",
+    "quality": "黄金",
+    "effect": "你的获得技能急速。",
+    "image": "https://apexlol.info/images/hextech/breadandjam.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/breadandjam.webp"
+  },
+  {
+    "id": 1151,
+    "name": "面包和奶酪",
+    "quality": "黄金",
+    "effect": "你的获得技能急速。",
+    "image": "https://apexlol.info/images/hextech/breadandcheese.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/breadandcheese.webp"
+  },
+  {
+    "id": 1152,
+    "name": "任务：钢化你心",
+    "quality": "黄金",
+    "effect": "需求：持有【心之钢】且层数在层或以上。\n\n奖励：将你的心之钢层数乘以。",
+    "image": "https://apexlol.info/images/hextech/quest-steelyourheart.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/quest-steelyourheart.webp"
+  },
+  {
+    "id": 1180,
+    "name": "超强大脑",
+    "quality": "黄金",
+    "effect": "每拥有法术强度就会获得护盾值。阵亡时或耗尽后70秒重置。",
+    "image": "https://apexlol.info/images/hextech/bigbrain.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/bigbrain.webp"
+  },
+  {
+    "id": 1198,
+    "name": "圣火",
+    "quality": "黄金",
+    "effect": "你的治疗或护盾会对一个附近的敌人施加一层无限叠加的灼烧，在秒里持续造成至多最大生命值的魔法伤害(最小值)。\n\n这个伤害基于治疗或护盾对被援助英雄的最大生命值的相对占比。",
+    "image": "https://apexlol.info/images/hextech/holyfire.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/holyfire.webp"
+  },
+  {
+    "id": 1211,
+    "name": "杀戮时间到了",
+    "quality": "黄金",
+    "effect": "在施放你的终极技能后，标记所有敌人并存储你对他们的造成伤害。在秒之后，引爆储量伤害(秒冷却时间)。",
+    "image": "https://apexlol.info/images/hextech/itskillingtime.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/itskillingtime.webp"
+  },
+  {
+    "id": 1238,
+    "name": "质变：棱彩阶",
+    "quality": "黄金",
+    "effect": "获得1个随机棱彩阶强化符文。",
+    "image": "https://apexlol.info/images/hextech/transmuteprismatic.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/transmuteprismatic.webp"
+  },
+  {
+    "id": 1250,
+    "name": "一板一眼",
+    "quality": "黄金",
+    "effect": "你的攻击速度变为。所有额外攻击速度会被转化为攻击力。(外加攻击力每1%攻击速度)。",
+    "image": "https://apexlol.info/images/hextech/slowandsteady.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/slowandsteady.webp"
+  },
+  {
+    "id": 1311,
+    "name": "溢流",
+    "quality": "黄金",
+    "effect": "你的法力消耗翻倍。\n\n你的技能的治疗效果、护盾效果和伤害获得提升，提升幅度基于你的最大法力值。",
+    "image": "https://apexlol.info/images/hextech/overflow.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/overflow.webp"
+  },
+  {
+    "id": 1313,
+    "name": "作弊：我能回城！",
+    "quality": "黄金",
+    "effect": "按下【回城】能够回到基地，购买装备并且获得强化符文。",
+    "image": "https://apexlol.info/images/hextech/cheating.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/cheating.webp"
+  },
+  {
+    "id": 1322,
+    "name": "罪恶快感",
+    "quality": "黄金",
+    "effect": "参与击杀后，在秒内提升移动速度和攻击速度。",
+    "image": "https://apexlol.info/images/hextech/getexcited.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/getexcited.webp"
+  },
+  {
+    "id": 1326,
+    "name": "夜狩",
+    "quality": "黄金",
+    "effect": "在对敌人造成伤害的秒内参与击杀该敌人会使你进入隐身状态。",
+    "image": "https://apexlol.info/images/hextech/nightstalking.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/nightstalking.webp"
+  },
+  {
+    "id": 1328,
+    "name": "暴击律动",
+    "quality": "黄金",
+    "effect": "你的普攻在暴击时获得可叠加的攻击速度。\n\n获得暴击几率。",
+    "image": "https://apexlol.info/images/hextech/criticalrhythm.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/criticalrhythm.webp"
+  },
+  {
+    "id": 1336,
+    "name": "升级：无尽之刃",
+    "quality": "黄金",
+    "effect": "获得 暴击几率和500金币。\n\n装备无尽之刃后，可使你的暴击几率在每次攻击都会提供随机的暴击伤害。",
+    "image": "https://apexlol.info/images/hextech/upgradeie.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/upgradeie.webp"
+  },
+  {
+    "id": 1338,
+    "name": "升级：狂妄",
+    "quality": "黄金",
+    "effect": "参与击杀时，【狂妄】会为你提供治疗和移动速度，增加你的盛名层数。\n\n获得+250金币。",
+    "image": "https://apexlol.info/images/hextech/upgradehubris.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/upgradehubris.webp"
+  },
+  {
+    "id": 1342,
+    "name": "升级：雪球",
+    "quality": "黄金",
+    "effect": "雪球获得技能急速。击中一个敌人时，会产生一次降雪，来对附近的敌人造成范围伤害和减速效果。\n\n如果你没有雪球，获得一个雪球。",
+    "image": "https://apexlol.info/images/hextech/snowballupgrade.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/snowballupgrade.webp"
+  },
+  {
+    "id": 1346,
+    "name": "吸血习性",
+    "quality": "黄金",
+    "effect": "你不再能够被友军治疗或获得生命回复。获得全能吸血。",
+    "image": "https://apexlol.info/images/hextech/vampired.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/vampired.webp"
+  },
+  {
+    "id": 1353,
+    "name": "坦克引擎",
+    "quality": "黄金",
+    "effect": "参与击杀时，获得一个层数，使你的体型增大并提升最大生命值。阵亡时损失层数。",
+    "image": "https://apexlol.info/images/hextech/tank-engine.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/tank-engine.webp"
+  },
+  {
+    "id": 1356,
+    "name": "暴击飞弹",
+    "quality": "黄金",
+    "effect": "当你暴击时，发射爆竹造成魔法伤害。\n\n获得暴击几率。",
+    "image": "https://apexlol.info/images/hextech/criticalmissile.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/criticalmissile.webp"
+  },
+  {
+    "id": 1358,
+    "name": "弹球",
+    "quality": "黄金",
+    "effect": "你的雪球获得技能急速并且造成额外的真实伤害。\n\n当雪球从墙体上反弹时，它的体型和伤害获得提升，并缩短它的冷却时间。",
+    "image": "https://apexlol.info/images/hextech/pinballsnowball.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/pinballsnowball.webp"
+  },
+  {
+    "id": 1373,
+    "name": "缩小引擎",
+    "quality": "黄金",
+    "effect": "参与击杀后会让你变小并且获得技能急速和移动速度。\n\n阵亡时损失层数。",
+    "image": "https://apexlol.info/images/hextech/shrinkengine.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/shrinkengine.webp"
+  },
+  {
+    "id": 1375,
+    "name": "吞噬灵魂",
+    "quality": "黄金",
+    "effect": "定身一个敌方英雄时会提供最大生命值。",
+    "image": "https://apexlol.info/images/hextech/souleater.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/souleater.webp"
+  },
+  {
+    "id": 1384,
+    "name": "捐赠",
+    "quality": "黄金",
+    "effect": "获得金币。无需多问。",
+    "image": "https://apexlol.info/images/hextech/donation.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/donation.webp"
+  },
+  {
+    "id": 1390,
+    "name": "超凡邪恶",
+    "quality": "黄金",
+    "effect": "在你用技能对敌人造成伤害时永久获得法术强度。\n\n如果是作为你的第二个强化符文，则自带法术强度。",
+    "image": "https://apexlol.info/images/hextech/phenomenalevil.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/phenomenalevil.webp"
+  },
+  {
+    "id": 1391,
+    "name": "红包",
+    "quality": "黄金",
+    "effect": "红包会随机出现在你周围。拾取它们会给你金币和少量的某个随机属性。",
+    "image": "https://apexlol.info/images/hextech/redenvelopes.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/redenvelopes.webp"
+  },
+  {
+    "id": 1401,
+    "name": "生机迸发",
+    "quality": "黄金",
+    "effect": "获得生机迸发作为一个召唤师技能。\n\n生机迸发会猛然提升你的体型，击飞附近的敌人们并提供最大生命值。",
+    "image": "https://apexlol.info/images/hextech/growthspurt.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/growthspurt.webp"
+  },
+  {
+    "id": 1403,
+    "name": "属性叠属性！",
+    "quality": "黄金",
+    "effect": "获得个【属性锻造器】！",
+    "image": "https://apexlol.info/images/hextech/statsonstats.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/statsonstats.webp"
+  },
+  {
+    "id": 1406,
+    "name": "祖母的辣椒油",
+    "quality": "黄金",
+    "effect": "普攻和技能在命中敌人时会对其施加一个灼烧，这个效果会在附近掉落一滩辣椒油。辣椒油会回复生命值并灼烧敌人们。\n\n你施加的每个灼烧都会使辣椒油效果变得更强。",
+    "image": "https://apexlol.info/images/hextech/grandmaschilioil.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/grandmaschilioil.webp"
+  },
+  {
+    "id": 1409,
+    "name": "魄罗爆破手",
+    "quality": "黄金",
+    "effect": "你周期性地召集魄罗。伤害一个敌人时会对其发射所有魄罗，每个魄罗造成目标最大生命值真实伤害。如果你有5个魄罗，那么它们会进行一次击退。",
+    "image": "https://apexlol.info/images/hextech/poroblast.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/poroblast.webp"
+  },
+  {
+    "id": 1420,
+    "name": "咏叹奏鸣",
+    "quality": "黄金",
+    "effect": "每秒，以一个不断交替的旋律来自动施放坚毅咏叹调和迅捷奏鸣曲。\n\n坚毅咏叹调治疗附近友军并提供一个临时的护盾光环。\n\n迅捷奏鸣曲提供一个临时光环来提供额外移动速度。",
+    "image": "https://apexlol.info/images/hextech/sonata.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/sonata.webp"
+  },
+  {
+    "id": 1996,
+    "name": "升级：耀光",
+    "quality": "黄金",
+    "effect": "你的咒刃效果造成额外伤害并治疗你自身，治疗量相当于目标生命值的一定百分比。此外，获得250金币。",
+    "image": "https://apexlol.info/images/hextech/upgradesheen.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/upgradesheen.webp"
+  },
+  {
+    "id": 2010,
+    "name": "双发快射",
+    "quality": "黄金",
+    "effect": "你的暴击施加一次额外的附带攻击特效。\n\n获得 暴击几率。",
+    "image": "https://apexlol.info/images/hextech/doubletap.webp",
+    "sourceImage": "https://apexlol.info/images/hextech/doubletap.webp"
+  }
+]

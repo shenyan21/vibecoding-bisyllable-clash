@@ -1,0 +1,400 @@
+import express from "express";
+import http from "node:http";
+import path from "node:path";
+import { Server } from "socket.io";
+import { createServer as createViteServer } from "vite";
+import { getAnimeStaticDir, loadAnimeCards } from "./animeCards.js";
+import { getChildhoodStaticDir, loadChildhoodCards } from "./childhoodCards.js";
+import { getGameStaticDir, loadGameCards } from "./gameCards.js";
+import { getHextechStaticDir, loadHexCards } from "./hexCards.js";
+import { DEFAULT_ROOM_ID, RoomStore } from "./roomStore.js";
+
+const PORT = Number(process.env.PORT || 8787);
+const isProduction = process.env.NODE_ENV === "production";
+const cards = loadHexCards();
+const animeCards = loadAnimeCards();
+const gameCards = loadGameCards();
+const childhoodCards = loadChildhoodCards();
+const app = express();
+const httpServer = http.createServer(app);
+const io = new Server(httpServer);
+
+if (PORT === 80) {
+  try {
+    const secondaryServer = http.createServer(app);
+    io.attach(secondaryServer);
+    secondaryServer.listen(8787, () => {
+      console.log("Secondary Hextech duel server listening on port 8787");
+    });
+  } catch (err) {
+    console.error("Failed to start secondary server on 8787:", err.message);
+  }
+}
+
+const store = new RoomStore({ hextech: cards, anime: animeCards, game: gameCards, childhood: childhoodCards });
+
+app.use(express.json({ limit: "16kb" }));
+app.use("/hextech", express.static(getHextechStaticDir()));
+app.use("/anime", express.static(getAnimeStaticDir()));
+app.use("/game", express.static(getGameStaticDir()));
+app.use("/childhood", express.static(getChildhoodStaticDir()));
+app.get("/favicon.ico", (req, res) => {
+  res.status(204).end();
+});
+app.get("/api/cards/count", (req, res) => {
+  res.json({ count: cards.length, hextech: cards.length, anime: animeCards.length, game: gameCards.length, childhood: childhoodCards.length });
+});
+app.get("/api/anime/posters", (req, res) => {
+  const limit = clampInt(req.query.limit, 24, 160, 96);
+  res.json({
+    posters: animeCards.slice(0, limit).map((card) => ({
+      id: card.id,
+      name: card.name,
+      image: card.image,
+      score: card.score,
+      date: card.date
+    }))
+  });
+});
+app.get("/api/game/posters", (req, res) => {
+  const limit = clampInt(req.query.limit, 24, 160, 96);
+  res.json({
+    posters: gameCards.slice(0, limit).map((card) => ({
+      id: card.id,
+      name: card.name,
+      image: card.image,
+      score: card.score,
+      date: card.date
+    }))
+  });
+});
+app.get("/api/childhood/posters", (req, res) => {
+  const limit = clampInt(req.query.limit, 24, 160, 96);
+  res.json({
+    posters: childhoodCards.slice(0, limit).map((card) => ({
+      id: card.id,
+      name: card.name,
+      image: card.image,
+      score: card.score,
+      date: card.date
+    }))
+  });
+});
+app.get("/api/public-config", (req, res) => {
+  const host = req.headers.host;
+  const protocol = req.headers["x-forwarded-proto"] || req.protocol || "http";
+  let baseUrl = "";
+  if (host) {
+    baseUrl = `${protocol}://${host}`;
+  } else {
+    baseUrl = getPublicBaseUrl();
+  }
+  res.json({
+    publicBaseUrl: normalizeBaseUrl(baseUrl)
+  });
+});
+
+
+
+if (!isProduction) {
+  const vite = await createViteServer({
+    server: {
+      middlewareMode: true,
+      allowedHosts: true,
+      hmr: { server: httpServer }
+    },
+    appType: "spa"
+  });
+  app.use(vite.middlewares);
+} else {
+  app.use(express.static("dist"));
+}
+
+store.setChangeHandler((roomId) => emitRoom(roomId));
+
+io.on("connection", (socket) => {
+  socket.on("room:create", (payload, reply) => {
+    run(reply, () => {
+      const access = requireAccess(payload);
+      socket.data.accessUser = access.username;
+      
+      const nickname = String(payload.nickname || "").trim();
+      validateNickname(nickname);
+
+      const room = store.createRoom({
+        clientId: requireClientId(payload),
+        nickname,
+        role: payload.role || "admin",
+        gameMode: payload.gameMode,
+        socketId: socket.id,
+        accessUser: access.username
+      });
+      socket.data.clientId = payload.clientId;
+      socket.data.roomId = room.id;
+      socket.join(room.id);
+      emitRoom(room.id);
+      return { roomId: room.id };
+    });
+  });
+
+  socket.on("room:join", (payload, reply) => {
+    run(reply, () => {
+      const access = requireAccess(payload);
+      socket.data.accessUser = access.username;
+      
+      const roomId = String(payload.roomId || DEFAULT_ROOM_ID).trim().toUpperCase();
+      validateRoomId(roomId);
+      const nickname = String(payload.nickname || "").trim();
+      validateNickname(nickname);
+
+      const room = store.joinRoom({
+        roomId,
+        clientId: requireClientId(payload),
+        nickname,
+        role: payload.role || "spectator",
+        gameMode: payload.gameMode,
+        socketId: socket.id,
+        accessUser: access.username
+      });
+      socket.data.clientId = payload.clientId;
+      socket.data.roomId = room.id;
+      socket.join(room.id);
+      emitRoom(room.id);
+      return { roomId: room.id };
+    });
+  });
+
+  socket.on("room:reconnect", (payload, reply) => {
+    run(reply, () => {
+      const access = requireAccess(payload);
+      socket.data.accessUser = access.username;
+      
+      const roomId = String(payload.roomId || DEFAULT_ROOM_ID).trim().toUpperCase();
+      validateRoomId(roomId);
+
+      const room = store.reconnect({
+        roomId,
+        clientId: requireClientId(payload),
+        socketId: socket.id
+      });
+      socket.data.clientId = payload.clientId;
+      socket.data.roomId = room.id;
+      socket.join(room.id);
+      emitRoom(room.id);
+      return { roomId: room.id };
+    });
+  });
+
+  socket.on("room:leave", (payload, reply) => {
+    run(reply, () => {
+      const roomId = socket.data.roomId;
+      const room = socket.data.clientId ? store.leaveRoom(socket.data.clientId) : null;
+      if (roomId) socket.leave(roomId);
+      socket.data.clientId = null;
+      socket.data.roomId = null;
+      if (room) emitRoom(room.id);
+      return {};
+    });
+  });
+
+  socket.on("player:seat", (payload, reply) => {
+    run(reply, () => {
+      const room = store.setPlayerSeat(requireSocketClient(socket), payload || {});
+      emitRoom(room.id);
+      return {};
+    });
+  });
+
+  socket.on("player:spectator", (payload, reply) => {
+    run(reply, () => {
+      const room = store.setSpectator(requireSocketClient(socket));
+      emitRoom(room.id);
+      return {};
+    });
+  });
+
+  socket.on("player:ready", (payload, reply) => {
+    run(reply, () => {
+      const room = store.setReady(requireSocketClient(socket), Boolean(payload?.ready));
+      emitRoom(room.id);
+      return {};
+    });
+  });
+
+  socket.on("admin:settings", (payload, reply) => {
+    run(reply, () => {
+      const room = store.updateSettings(requireSocketClient(socket), payload);
+      emitRoom(room.id);
+      return {};
+    });
+  });
+
+  socket.on("admin:assign", (payload, reply) => {
+    run(reply, () => {
+      const room = store.assignPlayer(requireSocketClient(socket), payload.targetId, payload.assignment || {});
+      emitRoom(room.id);
+      return {};
+    });
+  });
+
+  socket.on("admin:kick", (payload, reply) => {
+    run(reply, () => {
+      const room = store.kickPlayer(requireSocketClient(socket), payload.targetId);
+      emitRoom(room.id);
+      return {};
+    });
+  });
+
+  socket.on("game:start", (payload, reply) => {
+    run(reply, () => {
+      const room = store.startGame(requireSocketClient(socket));
+      emitRoom(room.id);
+      return {};
+    });
+  });
+
+  socket.on("game:pause", (payload, reply) => {
+    run(reply, () => {
+      const room = store.pauseGame(requireSocketClient(socket));
+      emitRoom(room.id);
+      return {};
+    });
+  });
+
+  socket.on("game:resume", (payload, reply) => {
+    run(reply, () => {
+      const room = store.resumeGame(requireSocketClient(socket));
+      emitRoom(room.id);
+      return {};
+    });
+  });
+
+  socket.on("game:reset", (payload, reply) => {
+    run(reply, () => {
+      const room = store.resetRoom(requireSocketClient(socket));
+      emitRoom(room.id);
+      return {};
+    });
+  });
+
+  socket.on("game:nextRound", (payload, reply) => {
+    run(reply, () => {
+      const room = store.adminNextRound(requireSocketClient(socket));
+      emitRoom(room.id);
+      return {};
+    });
+  });
+
+  socket.on("game:changeCard", (payload, reply) => {
+    run(reply, () => {
+      const room = store.adminChangeCard(requireSocketClient(socket));
+      emitRoom(room.id);
+      return {};
+    });
+  });
+
+  socket.on("turn:clue", (payload, reply) => {
+    run(reply, () => {
+      const room = store.submitClue(requireSocketClient(socket), payload.clue);
+      emitRoom(room.id);
+      return {};
+    });
+  });
+
+  socket.on("turn:guess", (payload, reply) => {
+    run(reply, () => {
+      const room = store.submitGuess(requireSocketClient(socket), payload.answerId);
+      emitRoom(room.id);
+      return {};
+    });
+  });
+
+  socket.on("options:filter", (payload, reply) => {
+    run(reply, () => {
+      const room = store.setOptionQualityFilter(requireSocketClient(socket), payload?.quality);
+      emitRoom(room.id);
+      return {};
+    });
+  });
+
+  socket.on("disconnect", () => {
+    if (!socket.data.clientId) return;
+    const room = store.disconnect(socket.data.clientId);
+    if (room) emitRoom(room.id);
+  });
+});
+
+httpServer.listen(PORT, () => {
+  console.log(`Hextech duel server: http://127.0.0.1:${PORT}`);
+});
+
+function emitRoom(roomId) {
+  const room = store.getRoom(roomId);
+  if (!room) return;
+  for (const player of room.players) {
+    if (!player.socketId || !player.online) continue;
+    io.to(player.socketId).emit("room:state", store.getClientState(roomId, player.id));
+  }
+}
+
+function run(reply, fn) {
+  try {
+    const data = fn();
+    if (typeof reply === "function") reply({ ok: true, ...data });
+  } catch (error) {
+    if (typeof reply === "function") reply({ ok: false, error: error.message });
+  }
+}
+
+function requireClientId(payload) {
+  const clientId = String(payload?.clientId || "").trim();
+  if (!clientId) throw new Error("缺少玩家标识");
+  return clientId;
+}
+
+function requireSocketClient(socket) {
+  if (!socket.data.clientId) throw new Error("尚未加入房间");
+  return socket.data.clientId;
+}
+
+function requireAccess(payload) {
+  return { username: "guest" };
+}
+
+function getPublicBaseUrl() {
+  return normalizeBaseUrl(process.env.PUBLIC_BASE_URL) || "http://39.105.218.65";
+}
+
+function normalizeBaseUrl(value) {
+  const trimmed = String(value || "").trim();
+  if (!trimmed) return "";
+  try {
+    const url = new URL(trimmed);
+    url.search = "";
+    url.hash = "";
+    return url.toString().replace(/\/$/, "");
+  } catch {
+    return "";
+  }
+}
+
+function clampInt(value, min, max, fallback) {
+  const parsed = Number.parseInt(value, 10);
+  if (Number.isNaN(parsed)) return fallback;
+  return Math.min(max, Math.max(min, parsed));
+}
+
+function validateRoomId(roomId) {
+  if (!/^(TEST|\d{4})$/.test(roomId)) {
+    throw new Error("无效的房间号，限4位数字");
+  }
+}
+
+function validateNickname(nickname) {
+  if (!nickname || nickname.length > 16) {
+    throw new Error("昵称长度限制为1-16位");
+  }
+  if (/[<>&"'/]/u.test(nickname)) {
+    throw new Error("昵称中不能包含特殊字符");
+  }
+}

@@ -1,0 +1,19 @@
+node_modules/
+dist/
+.tmp/
+.playwright-cli/
+__pycache__/
+*.pyc
+*.log
+logs/
+releases/
+
+# 敏感文本凭证
+账号密码.txt
+优化清单.txt
+
+# 数据库与本地大型多媒体资源
+data/duel.db
+data/anime/covers/
+data/childhood/covers/
+data/hextech/image/

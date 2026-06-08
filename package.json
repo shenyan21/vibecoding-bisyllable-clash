@@ -1,0 +1,23 @@
+{
+  "name": "hextech-bisyllable-duel",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node server/index.js",
+    "build": "vite build",
+    "test": "node --test tests/*.test.js",
+    "check": "node --check server/index.js && node --check server/gameLogic.js && node --check server/roomStore.js && vite build"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "latest",
+    "better-sqlite3": "latest",
+    "express": "latest",
+    "lucide-react": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "socket.io": "latest",
+    "socket.io-client": "latest",
+    "vite": "latest"
+  }
+}
