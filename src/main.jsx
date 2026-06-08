@@ -328,8 +328,14 @@ function AccessScreen({ onAccessGranted }) {
 }
 
 function HomeScreen({ clientId, connected, error, lastRoomId, request, onOpenAnnouncement }) {
-  const [nickname, setNickname] = useState(localStorage.getItem(NICKNAME_KEY) || "");
-  const [roomId, setRoomId] = useState(localStorage.getItem(LAST_ROOM_KEY) || "");
+  const [nickname, setNickname] = useState(() => {
+    const fromUrl = new URLSearchParams(window.location.search).get("nickname");
+    return fromUrl || localStorage.getItem(NICKNAME_KEY) || "";
+  });
+  const [roomId, setRoomId] = useState(() => {
+    const fromUrl = new URLSearchParams(window.location.search).get("room");
+    return fromUrl || localStorage.getItem(LAST_ROOM_KEY) || "";
+  });
   const [gameMode, setGameMode] = useState(normalizeGameMode(localStorage.getItem(GAME_MODE_KEY)));
   const [busy, setBusy] = useState(false);
   const modeMeta = gameModeMeta(gameMode);
@@ -337,6 +343,15 @@ function HomeScreen({ clientId, connected, error, lastRoomId, request, onOpenAnn
   useEffect(() => {
     localStorage.setItem(GAME_MODE_KEY, gameMode);
   }, [gameMode]);
+
+  useEffect(() => {
+    const fromUrl = new URLSearchParams(window.location.search);
+    const autoJoin = fromUrl.get("auto") === "true";
+    if (autoJoin && nickname.trim() && roomId.trim() && connected && !busy) {
+      const mockEvent = { preventDefault: () => {} };
+      joinRoom(mockEvent);
+    }
+  }, [connected, nickname, roomId]);
 
   async function joinRoom(event) {
     event.preventDefault();
@@ -1488,6 +1503,10 @@ function useCountdown(turnEndsAt, serverNow) {
 }
 
 function getClientId() {
+  const fromUrl = new URLSearchParams(window.location.search).get("clientId");
+  if (fromUrl) {
+    return fromUrl;
+  }
   let clientId = localStorage.getItem(CLIENT_ID_KEY);
   if (!clientId) {
     clientId = createClientId();
