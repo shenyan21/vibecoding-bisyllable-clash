@@ -12,6 +12,7 @@ releases/
 账号密码.txt
 优化清单.txt
 README_deploy.md
+deploy.ps1
 
 # 数据库与本地大型多媒体资源
 data/duel.db
