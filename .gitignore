@@ -13,6 +13,7 @@ releases/
 优化清单.txt
 README_deploy.md
 deploy.ps1
+deploy.py
 
 # 数据库与本地大型多媒体资源
 data/duel.db
