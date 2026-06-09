@@ -12,6 +12,7 @@ import {
   Film,
   Gamepad2,
   HelpCircle,
+  X,
   ImageOff,
   LogOut,
   LogIn,
@@ -994,6 +995,8 @@ function MediaAnswerBoard({ room, request, remainingSeconds, canSubmit = true, v
   const [activeTag, setActiveTag] = useState(initialUi.activeTag ?? "");
   const [tagsOpen, setTagsOpen] = useState(false);
   const [busy, setBusy] = useState(false);
+  const [excludedIds, setExcludedIds] = useState(new Set());
+  const [viewTab, setViewTab] = useState("candidates");
   const optionTotal = room.currentOptionTotal || room.currentOptions.length;
   const tagFilters = useMemo(() => buildMediaTagFilters(room.currentOptions, room.gameMode), [room.currentOptions, room.gameMode]);
   const filteredOptions = useMemo(() => {
@@ -1016,9 +1019,17 @@ function MediaAnswerBoard({ room, request, remainingSeconds, canSubmit = true, v
       })
       .sort((a, b) => compareChinesePinyin(a.name, b.name) || Number(a.id) - Number(b.id));
   }, [activeTag, room.currentOptions, search]);
+  const visibleOptions = useMemo(
+    () => filteredOptions.filter((o) => !excludedIds.has(o.id)),
+    [filteredOptions, excludedIds]
+  );
+  const excludedOptions = useMemo(
+    () => filteredOptions.filter((o) => excludedIds.has(o.id)),
+    [filteredOptions, excludedIds]
+  );
   const selectedOption = useMemo(
-    () => room.currentOptions.find((option) => option.id === selected) || filteredOptions[0] || null,
-    [filteredOptions, room.currentOptions, selected]
+    () => room.currentOptions.find((option) => option.id === selected && !excludedIds.has(option.id)) || visibleOptions[0] || null,
+    [visibleOptions, room.currentOptions, selected, excludedIds]
   );
 
   useEffect(() => {
@@ -1042,6 +1053,23 @@ function MediaAnswerBoard({ room, request, remainingSeconds, canSubmit = true, v
       setSelected(null);
     }
   }, [filteredOptions, room.currentOptions, selected]);
+
+  useEffect(() => {
+    setExcludedIds(new Set());
+    setViewTab("candidates");
+  }, [room.currentRound]);
+
+  function excludeOption(id) {
+    setExcludedIds((prev) => new Set(prev).add(id));
+    if (selected === id) {
+      const remaining = visibleOptions.filter((o) => o.id !== id);
+      setSelected(remaining[0]?.id || null);
+    }
+  }
+
+  function restoreOption(id) {
+    setExcludedIds((prev) => { const s = new Set(prev); s.delete(id); return s; });
+  }
 
   async function submit() {
     const answerId = selectedOption?.id;
@@ -1069,8 +1097,8 @@ function MediaAnswerBoard({ room, request, remainingSeconds, canSubmit = true, v
           <h2>{busy ? "判定中" : canSubmit ? meta.chooseLabel : "查看候选"}</h2>
         </div>
         <div className="answer-board-meta">
-          <strong>{filteredOptions.length}/{optionTotal}</strong>
-          <span>{activeTag || "全部候选"}</span>
+          <strong>{visibleOptions.length}/{optionTotal}</strong>
+          <span>{activeTag || "全部候选"}{excludedIds.size > 0 ? ` · 已排除${excludedIds.size}` : ""}</span>
         </div>
       </div>
 
@@ -1150,20 +1178,48 @@ function MediaAnswerBoard({ room, request, remainingSeconds, canSubmit = true, v
         </div>
       )}
 
+      <div className="candidate-tabs">
+        <button className={viewTab === "candidates" ? "candidate-tab active" : "candidate-tab"} onClick={() => setViewTab("candidates")} type="button">
+          候选 ({visibleOptions.length})
+        </button>
+        <button className={viewTab === "excluded" ? "candidate-tab active" : "candidate-tab"} onClick={() => setViewTab("excluded")} type="button">
+          已排除 ({excludedOptions.length})
+        </button>
+      </div>
       <div className="anime-candidate-list">
-        {filteredOptions.map((option) => (
-          <button
-            key={`${option.id}-${option.name}`}
-            className={selectedOption?.id === option.id ? "anime-candidate selected" : "anime-candidate"}
-            onClick={() => setSelected(option.id)}
-            type="button"
-          >
-            <PosterImage src={option.image} name={option.name} />
-            <span>{candidateDisplayName(option)}</span>
-            <small>{formatCandidateMeta(option)}</small>
-          </button>
-        ))}
-        {filteredOptions.length === 0 && <div className="empty-options">{meta.emptyText}</div>}
+        {viewTab === "candidates" ? (
+          <>
+            {visibleOptions.map((option) => (
+              <button
+                key={`${option.id}-${option.name}`}
+                className={selectedOption?.id === option.id ? "anime-candidate selected" : "anime-candidate"}
+                onClick={() => setSelected(option.id)}
+                type="button"
+              >
+                <PosterImage src={option.image} name={option.name} />
+                <span>{candidateDisplayName(option)}</span>
+                <small>{formatCandidateMeta(option)}</small>
+                <span className="exclude-btn" onClick={(e) => { e.stopPropagation(); excludeOption(option.id); }}><X size={14} /></span>
+              </button>
+            ))}
+            {visibleOptions.length === 0 && <div className="empty-options">{excludedOptions.length > 0 ? "全部已排除" : meta.emptyText}</div>}
+          </>
+        ) : (
+          <>
+            {excludedOptions.map((option) => (
+              <div
+                key={`${option.id}-${option.name}`}
+                className="anime-candidate excluded"
+              >
+                <PosterImage src={option.image} name={option.name} />
+                <span>{candidateDisplayName(option)}</span>
+                <small>{formatCandidateMeta(option)}</small>
+                <button className="restore-btn" onClick={() => restoreOption(option.id)} type="button">恢复</button>
+              </div>
+            ))}
+            {excludedOptions.length === 0 && <div className="empty-options">暂无排除的候选</div>}
+          </>
+        )}
       </div>
 
       <div className="answer-board-footer">
@@ -1251,6 +1307,8 @@ function AnswerBoard({ room, request, remainingSeconds, canSubmit = true }) {
   const [selected, setSelected] = useState(null);
   const [search, setSearch] = useState("");
   const [busy, setBusy] = useState(false);
+  const [excludedIds, setExcludedIds] = useState(new Set());
+  const [viewTab, setViewTab] = useState("candidates");
   const qualityFilter = room.optionQualityFilter || "";
   const optionTotal = room.currentOptionTotal || room.currentOptions.length;
   const filteredOptions = useMemo(() => {
@@ -1260,16 +1318,42 @@ function AnswerBoard({ room, request, remainingSeconds, canSubmit = true }) {
       .sort((a, b) => compareChinesePinyin(a.name, b.name) || Number(a.id) - Number(b.id));
   }, [room.currentOptions, search]);
 
+  const visibleOptions = useMemo(
+    () => filteredOptions.filter((o) => !excludedIds.has(o.id)),
+    [filteredOptions, excludedIds]
+  );
+  const excludedOptions = useMemo(
+    () => filteredOptions.filter((o) => excludedIds.has(o.id)),
+    [filteredOptions, excludedIds]
+  );
+
   useEffect(() => {
     setSelected(null);
     setSearch("");
   }, [room.currentRound, room.currentTurnTeam, room.currentClue]);
 
   useEffect(() => {
-    if (selected && !filteredOptions.some((option) => option.id === selected)) {
-      setSelected(null);
+    setExcludedIds(new Set());
+    setViewTab("candidates");
+  }, [room.currentRound]);
+
+  useEffect(() => {
+    if (selected && (excludedIds.has(selected) || !filteredOptions.some((option) => option.id === selected))) {
+      setSelected(visibleOptions[0]?.id || null);
     }
-  }, [filteredOptions, selected]);
+  }, [filteredOptions, visibleOptions, selected, excludedIds]);
+
+  function excludeOption(id) {
+    setExcludedIds((prev) => new Set(prev).add(id));
+    if (selected === id) {
+      const remaining = visibleOptions.filter((o) => o.id !== id);
+      setSelected(remaining[0]?.id || null);
+    }
+  }
+
+  function restoreOption(id) {
+    setExcludedIds((prev) => { const s = new Set(prev); s.delete(id); return s; });
+  }
 
   async function changeQualityFilter(nextQuality) {
     if (nextQuality === qualityFilter) return;
@@ -1297,8 +1381,8 @@ function AnswerBoard({ room, request, remainingSeconds, canSubmit = true }) {
           <h2>{busy ? "判定中" : canSubmit ? "选择符文" : "查看候选"}</h2>
         </div>
         <div className="answer-board-meta">
-          <strong>{filteredOptions.length}/{optionTotal}</strong>
-          <span>{qualityFilter ? `${qualityFilter}筛选` : "全部候选"}</span>
+          <strong>{visibleOptions.length}/{optionTotal}</strong>
+          <span>{qualityFilter ? `${qualityFilter}筛选` : "全部候选"}{excludedIds.size > 0 ? ` · 已排除${excludedIds.size}` : ""}</span>
         </div>
       </div>
       <div className="answer-board-tools">
@@ -1323,20 +1407,48 @@ function AnswerBoard({ room, request, remainingSeconds, canSubmit = true }) {
         </div>
         <span className="answer-board-hint">品质筛选由服务端处理；悬停候选符文可查看描述。</span>
       </div>
+      <div className="candidate-tabs">
+        <button className={viewTab === "candidates" ? "candidate-tab active" : "candidate-tab"} onClick={() => setViewTab("candidates")} type="button">
+          候选 ({visibleOptions.length})
+        </button>
+        <button className={viewTab === "excluded" ? "candidate-tab active" : "candidate-tab"} onClick={() => setViewTab("excluded")} type="button">
+          已排除 ({excludedOptions.length})
+        </button>
+      </div>
       <div className="answer-grid answer-grid-main">
-        {filteredOptions.map((option) => (
-          <button
-            key={`${option.id}-${option.name}`}
-            className={selected === option.id ? "answer-button selected" : "answer-button"}
-            onClick={() => setSelected(option.id)}
-            title={`${option.name}\n${option.description || "暂无描述"}`}
-            type="button"
-          >
-            <RuneIcon src={option.image} name={option.name} />
-            <span>{option.name}</span>
-          </button>
-        ))}
-        {filteredOptions.length === 0 && <div className="empty-options">没有匹配的符文</div>}
+        {viewTab === "candidates" ? (
+          <>
+            {visibleOptions.map((option) => (
+              <button
+                key={`${option.id}-${option.name}`}
+                className={selected === option.id ? "answer-button selected" : "answer-button"}
+                onClick={() => setSelected(option.id)}
+                title={`${option.name}\n${option.description || "暂无描述"}`}
+                type="button"
+              >
+                <RuneIcon src={option.image} name={option.name} />
+                <span>{option.name}</span>
+                <span className="exclude-btn" onClick={(e) => { e.stopPropagation(); excludeOption(option.id); }}><X size={14} /></span>
+              </button>
+            ))}
+            {visibleOptions.length === 0 && <div className="empty-options">{excludedOptions.length > 0 ? "全部已排除" : "没有匹配的符文"}</div>}
+          </>
+        ) : (
+          <>
+            {excludedOptions.map((option) => (
+              <div
+                key={`${option.id}-${option.name}`}
+                className="answer-button excluded"
+                title={`${option.name}\n${option.description || "暂无描述"}`}
+              >
+                <RuneIcon src={option.image} name={option.name} />
+                <span>{option.name}</span>
+                <button className="restore-btn" onClick={() => restoreOption(option.id)} type="button">恢复</button>
+              </div>
+            ))}
+            {excludedOptions.length === 0 && <div className="empty-options">暂无排除的符文</div>}
+          </>
+        )}
       </div>
       <div className="answer-board-footer">
         <div>
@@ -1421,11 +1533,17 @@ function ResultDock({ room, final = false }) {
 }
 
 function MessageRail({ messages, compact = false }) {
+  const listRef = useRef(null);
   const latest = messages.slice(compact ? -20 : -200);
+  useEffect(() => {
+    if (listRef.current) {
+      listRef.current.scrollTop = listRef.current.scrollHeight;
+    }
+  }, [latest.length, compact]);
   return (
     <aside className={compact ? "message-rail compact" : "message-rail"}>
       <h2><Timer size={18} /> 消息流</h2>
-      <div className="message-list">
+      <div className="message-list" ref={listRef}>
         {latest.length === 0 && <p className="muted">暂无消息</p>}
         {latest.map((message) => (
           <div key={message.id} className="message-row">

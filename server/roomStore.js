@@ -344,7 +344,7 @@ export class RoomStore {
     });
     reset.settings = this.withAllCandidateOptions(keepSettings, keepGameMode);
     reset.cardUsageCounts = { ...keepCardUsageCounts };
-    reset.messages = [...room.messages.slice(-200), this.systemMessage("房间已重置")];
+    reset.messages = [this.systemMessage("房间已重置")];
     this.rooms.set(room.id, reset);
     this.touch(reset);
     return reset;
