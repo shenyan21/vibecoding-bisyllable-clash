@@ -1,8 +1,8 @@
-import paramiko, time, base64, sys
+import os, paramiko, time, base64, sys
 
 ssh = paramiko.SSHClient()
 ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-ssh.connect("39.105.218.65", username="Administrator", password="Aqcsldsxpdl130", timeout=15)
+ssh.connect("39.105.218.65", username="Administrator", password=os.environ["SSH_PASSWORD"], timeout=15)
 
 # Read local index.html
 with open("dist/index.html", "rb") as f:

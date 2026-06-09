@@ -1,8 +1,8 @@
-import paramiko, os, glob
+import os, paramiko, glob
 
 ssh = paramiko.SSHClient()
 ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-ssh.connect("39.105.218.65", username="Administrator", password="Aqcsldsxpdl130", timeout=15)
+ssh.connect("39.105.218.65", username="Administrator", password=os.environ["SSH_PASSWORD"], timeout=15)
 sftp = ssh.open_sftp()
 
 base = "C:/hextech-bisyllable-duel"
