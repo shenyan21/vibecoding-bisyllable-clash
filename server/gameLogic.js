@@ -50,6 +50,7 @@ export function createRoomState(roomId, adminId = null) {
     clueHistory: [],
     turnStartedAt: null,
     turnEndsAt: null,
+    guessedPlayerIds: [],
     score: { A: 0, B: 0 },
     history: [],
     roundTurns: [],
@@ -119,7 +120,7 @@ export function validateClue(clue, answerName) {
   return { valid: true, clue: value };
 }
 
-export function buildTurn({ team, clue, selectedAnswerId, selectedAnswerName, answerId, timedOut = false }) {
+export function buildTurn({ team, clue, selectedAnswerId, selectedAnswerName, answerId, timedOut = false, guesserId = null, guesserName = "" }) {
   const isCorrect = !timedOut && Number(selectedAnswerId) === Number(answerId);
   return {
     team,
@@ -128,6 +129,8 @@ export function buildTurn({ team, clue, selectedAnswerId, selectedAnswerName, an
     selectedAnswerName: selectedAnswerName || "",
     isCorrect,
     timedOut,
+    guesserId,
+    guesserName,
     timestamp: Date.now()
   };
 }

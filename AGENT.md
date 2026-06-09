@@ -64,8 +64,7 @@ npm.cmd run dev
 
 ## 🌐 公网部署与重启 (SSH/SFTP 更新工作流)
 
-* **公网域名**：`http://www.hextech-bisyllable-duel.com`
-* **公网 IP**：`39.105.218.65`（用户密码由临时对话提供，不写入仓库）
+* **公网地址**：`http://39.105.218.65/`（用户密码由临时对话提供，不写入仓库）
 * **服务器实例目录**：`C:\apps\hextech-bisyllable-duel`
 * **服务运行机制**：使用 Windows Server 的任务计划程序 `HextechBisyllableDuel`，其底层调用 `scripts\start-ip80.cmd` 启动监听 80 端口的 `node.exe` 服务。
 

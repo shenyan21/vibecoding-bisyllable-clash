@@ -19,4 +19,5 @@ deploy.py
 data/duel.db
 data/anime/covers/
 data/childhood/covers/
+data/childhood/deleted/covers/
 data/hextech/image/

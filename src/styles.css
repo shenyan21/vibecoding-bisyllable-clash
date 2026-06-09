@@ -930,6 +930,30 @@ h3 {
   overflow: hidden;
 }
 
+.turn-light {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  transition: all 0.3s ease;
+  vertical-align: middle;
+  margin-left: 4px;
+}
+
+.turn-light.active {
+  background: #12d7d0;
+  border-color: #12d7d0;
+  box-shadow: 0 0 8px 2px rgba(18, 215, 208, 0.6), 0 0 20px rgba(18, 215, 208, 0.3);
+  animation: turn-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes turn-pulse {
+  0%, 100% { box-shadow: 0 0 8px 2px rgba(18, 215, 208, 0.6), 0 0 20px rgba(18, 215, 208, 0.3); }
+  50% { box-shadow: 0 0 12px 4px rgba(18, 215, 208, 0.8), 0 0 30px rgba(18, 215, 208, 0.4); }
+}
+
 .team-rail {
   display: grid;
   gap: 12px;
@@ -1074,6 +1098,40 @@ h3 {
   color: var(--muted);
   font-size: 13px;
   font-weight: 700;
+}
+
+.change-card-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 5;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  border: 1px solid rgba(0, 224, 211, 0.5);
+  border-radius: 6px;
+  background: rgba(8, 21, 35, 0.92);
+  color: #00e0d3;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, transform 0.1s;
+}
+.change-card-button:hover {
+  background: rgba(0, 224, 211, 0.15);
+  border-color: #00e0d3;
+}
+.change-card-button:active {
+  transform: scale(0.95);
+}
+.anime-title-card .change-card-button {
+  border-color: rgba(255, 183, 77, 0.5);
+  color: #ffb74d;
+}
+.anime-title-card .change-card-button:hover {
+  background: rgba(255, 183, 77, 0.15);
+  border-color: #ffb74d;
 }
 
 .hex-rune-card {
@@ -1222,6 +1280,7 @@ h3 {
 }
 
 .anime-title-card {
+  position: relative;
   min-height: 390px;
   display: grid;
   grid-template-columns: 240px minmax(0, 1fr);
@@ -1745,6 +1804,28 @@ h3 {
   grid-template-columns: minmax(220px, 0.85fr) minmax(320px, 1.4fr) 160px;
   align-items: center;
   gap: 12px;
+}
+
+.clue-dock-input-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.clue-error {
+  flex-shrink: 0;
+  color: #ff6f7d;
+  font-size: 13px;
+  line-height: 1.3;
+  max-width: 180px;
+  text-align: right;
+  animation: clue-error-in 0.25s ease;
+}
+
+@keyframes clue-error-in {
+  from { opacity: 0; transform: translateX(-8px); }
+  to { opacity: 1; transform: translateX(0); }
 }
 
 .clue-dock input {

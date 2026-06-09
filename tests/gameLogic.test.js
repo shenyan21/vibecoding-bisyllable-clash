@@ -88,6 +88,7 @@ test("room flow switches turn after wrong guess and finishes round after correct
   assert.ok(filteredGuesserState.currentOptions.every((option) => option.rarity === "黄金"));
   assert.equal(filteredGuesserState.currentCard.rarity, null);
   store.submitGuess(firstGuesser, wrongOption.id);
+  // With only one guesser per team, wrong answer means all guessers tried → switch turn
   assert.equal(store.getRoom(room.id).currentTurnTeam, nextTeam(firstTeam));
   assert.equal(store.getRoom(room.id).phase, "clue");
   assert.equal(store.getClientState(room.id, firstGuesser).optionQualityFilter, "");
@@ -447,5 +448,69 @@ test("first player in the room receives host permissions", () => {
   assert.equal(updated.adminId, "guest");
   assert.equal(store.getClientState(room.id, "host").me.isAdmin, false);
   assert.equal(store.getClientState(room.id, "guest").me.isAdmin, true);
+});
+
+test("multiple guessers on same team can guess sequentially, wrong answer does not switch turn until all guessed", () => {
+  const store = new RoomStore(cards);
+  const room = store.createRoom({ clientId: "admin", nickname: "夏如霜", role: "admin", socketId: "s0" });
+  store.joinRoom({ roomId: room.id, clientId: "a1", nickname: "A提", role: "contestant", socketId: "s1" });
+  store.joinRoom({ roomId: room.id, clientId: "a2", nickname: "A猜1", role: "contestant", socketId: "s2" });
+  store.joinRoom({ roomId: room.id, clientId: "a3", nickname: "A猜2", role: "contestant", socketId: "s3" });
+  store.joinRoom({ roomId: room.id, clientId: "b1", nickname: "B提", role: "contestant", socketId: "s4" });
+  store.joinRoom({ roomId: room.id, clientId: "b2", nickname: "B猜", role: "contestant", socketId: "s5" });
+  store.assignPlayer("admin", "a1", { role: "contestant", team: "A", seatRole: "clue_giver" });
+  store.assignPlayer("admin", "a2", { role: "contestant", team: "A", seatRole: "guesser" });
+  store.assignPlayer("admin", "a3", { role: "contestant", team: "A", seatRole: "guesser" });
+  store.assignPlayer("admin", "b1", { role: "contestant", team: "B", seatRole: "clue_giver" });
+  store.assignPlayer("admin", "b2", { role: "contestant", team: "B", seatRole: "guesser" });
+  store.updateSettings("admin", { totalRounds: 2, optionCount: 3, autoNextRound: false });
+  assert.equal(store.getRoom(room.id).settings.optionCount, cards.length);
+
+  store.startGame("admin");
+  const firstTeam = store.getRoom(room.id).currentTurnTeam;
+
+  // If A goes first, test the multi-guesser logic
+  if (firstTeam === "A") {
+    const wrongOption = store.getRoom(room.id).currentOptions.find((option) => option.id !== store.getRoom(room.id).currentCard.id);
+    const answerId = store.getRoom(room.id).currentCard.id;
+
+    store.submitClue("a1", "护盾");
+    assert.equal(store.getRoom(room.id).phase, "guess");
+
+    // A猜1 answers wrong — should NOT switch turn (A猜2 still hasn't guessed)
+    store.submitGuess("a2", wrongOption.id);
+    assert.equal(store.getRoom(room.id).currentTurnTeam, "A");
+    assert.equal(store.getRoom(room.id).phase, "guess");
+    assert.deepEqual(store.getClientState(room.id, "a2").guessedPlayerIds, ["a2"]);
+
+    // Same person can't guess again
+    assert.throws(() => store.submitGuess("a2", wrongOption.id), /已经提交过/);
+
+    // A猜2 answers correctly
+    store.submitGuess("a3", answerId);
+    assert.equal(store.getRoom(room.id).phase, "round_over");
+    assert.equal(store.getRoom(room.id).score["A"], 1);
+  } else {
+    // B goes first, only one guesser — wrong answer switches turn
+    const wrongOption = store.getRoom(room.id).currentOptions.find((option) => option.id !== store.getRoom(room.id).currentCard.id);
+
+    store.submitClue("b1", "护盾");
+    store.submitGuess("b2", wrongOption.id);
+    assert.equal(store.getRoom(room.id).currentTurnTeam, "A");
+    assert.equal(store.getRoom(room.id).phase, "clue");
+
+    // Now A's turn with 2 guessers
+    const answerId = store.getRoom(room.id).currentCard.id;
+    store.submitClue("a1", "叠层");
+    store.submitGuess("a2", wrongOption.id);
+    // A猜1 wrong, but A猜2 still can guess
+    assert.equal(store.getRoom(room.id).currentTurnTeam, "A");
+    assert.equal(store.getRoom(room.id).phase, "guess");
+    store.submitGuess("a3", answerId);
+    assert.equal(store.getRoom(room.id).phase, "round_over");
+    assert.equal(store.getRoom(room.id).score["A"], 1);
+  }
+
+  store.clearTimers(store.getRoom(room.id));
 });
 

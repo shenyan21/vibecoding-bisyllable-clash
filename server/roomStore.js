@@ -391,6 +391,33 @@ export class RoomStore {
     return room;
   }
 
+  clueGiverChangeCard(clientId) {
+    const room = this.requirePlayerRoom(clientId);
+    const player = this.requirePlayer(room, clientId);
+    this.assertPlaying(room);
+    if (room.phase !== "clue") throw new Error("当前不是提示阶段，无法换题");
+    if (player.role !== "contestant" || player.team !== room.currentTurnTeam || player.seatRole !== "clue_giver") {
+      throw new Error("只有当前队伍的提示者可以换题");
+    }
+
+    this.clearTimers(room);
+    const previousCardId = room.currentCard?.id;
+    const cards = this.getCandidateCards(room);
+    const card = pickRandomCard(cards, room.cardUsageCounts, Math.random, previousCardId ? [previousCardId] : []);
+    if (!card) throw new Error("题库为空，无法换题");
+
+    room.currentCard = card;
+    room.currentOptions = generateOptions(cards, card.id, cards.length);
+    this.registerCardUse(room, card);
+    room.roundTurns = [];
+    room.clueHistory = [];
+    room.currentClue = "";
+    this.addMessage(room, `${player.nickname} 更换了第 ${room.currentRound} 局题目`);
+    this.startTurn(room, room.currentTurnTeam);
+    this.touch(room);
+    return room;
+  }
+
   submitClue(clientId, clue) {
     const room = this.requirePlayerRoom(clientId);
     const player = this.requirePlayer(room, clientId);
@@ -426,6 +453,10 @@ export class RoomStore {
     if (!timedOut && (player.role !== "contestant" || player.team !== room.currentTurnTeam || player.seatRole !== "guesser")) {
       throw new Error("只有当前队伍的猜题者可以提交答案");
     }
+    // 防止同一人重复提交（超时不算）
+    if (!timedOut && room.guessedPlayerIds?.has(clientId)) {
+      throw new Error("你已经提交过答案了");
+    }
 
     const selected = room.currentOptions.find((option) => option.id === Number(selectedAnswerId));
     const turn = buildTurn({
@@ -434,14 +465,16 @@ export class RoomStore {
       selectedAnswerId,
       selectedAnswerName: selected?.name ?? "",
       answerId: room.currentCard.id,
-      timedOut
+      timedOut,
+      guesserId: clientId,
+      guesserName: player.nickname
     });
     room.roundTurns.push(turn);
 
     if (turn.isCorrect) {
       this.clearTurnTimer(room);
       finishRound(room, room.currentTurnTeam, selected?.name ?? "");
-      this.addMessage(room, `${teamName(turn.team)}猜中，本局答案是 ${room.currentCard.name}`);
+      this.addMessage(room, `${player.nickname} 猜中，本局答案是 ${room.currentCard.name}`);
       if (isGameComplete(room)) {
         room.status = "finished";
         room.phase = "finished";
@@ -450,8 +483,27 @@ export class RoomStore {
         this.scheduleNextRound(room);
       }
     } else {
-      this.addMessage(room, `${teamName(turn.team)}${timedOut ? "超时" : `提交了 ${selected?.name ?? "空答案"}`}，轮到 ${teamName(nextTeam(turn.team))}`);
-      this.startTurn(room, nextTeam(turn.team));
+      // 记录该猜题人已答过
+      if (!room.guessedPlayerIds) room.guessedPlayerIds = new Set();
+      room.guessedPlayerIds.add(clientId);
+
+      // 检查同队是否还有未答过的猜题人
+      const teamGuessers = room.players.filter(
+        (p) => p.role === "contestant" && p.team === room.currentTurnTeam && p.seatRole === "guesser"
+      );
+      const hasUngessed = teamGuessers.some((p) => !room.guessedPlayerIds.has(p.id));
+
+      if (hasUngessed && !timedOut) {
+        // 同队还有人可以猜，不切换队伍
+        this.addMessage(room, `${player.nickname} 猜了「${selected?.name ?? "空答案"}」，答错，同队其他猜题人可以继续猜`);
+      } else {
+        // 所有人都答过或超时，切换到对方队伍
+        if (!timedOut) {
+          this.addMessage(room, `${player.nickname} 猜了「${selected?.name ?? "空答案"}」，答错`);
+        }
+        this.addMessage(room, `${teamName(turn.team)}${timedOut ? "超时" : `全部答错`}，轮到 ${teamName(nextTeam(turn.team))}`);
+        this.startTurn(room, nextTeam(turn.team));
+      }
     }
     this.touch(room);
     return room;
@@ -497,6 +549,7 @@ export class RoomStore {
 
     return {
       ...serializableRoom,
+      guessedPlayerIds: room.guessedPlayerIds ? [...room.guessedPlayerIds] : [],
       players: sortPlayers(room.players).map((item) => redactPlayer(item, room.adminId)),
       currentCard: room.currentCard ? redactCard(room.currentCard, canSeeAnswer, player.seatRole !== "guesser") : null,
       currentOptions: getPlayerOptions(room.currentOptions, player).map((option) => redactOption(option, true)),
@@ -543,6 +596,7 @@ export class RoomStore {
     room.currentTurnTeam = team;
     room.phase = "clue";
     room.currentClue = "";
+    room.guessedPlayerIds = new Set();
     room.turnStartedAt = Date.now();
     room.turnEndsAt = Date.now() + room.settings.guessSeconds * 1000;
     this.scheduleTurnTimeout(room);

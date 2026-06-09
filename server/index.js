@@ -348,6 +348,14 @@ io.on("connection", (socket) => {
     });
   });
 
+  socket.on("turn:changeCard", (payload, reply) => {
+    run(reply, () => {
+      const room = store.clueGiverChangeCard(requireSocketClient(socket));
+      emitRoom(room.id);
+      return {};
+    });
+  });
+
   socket.on("turn:clue", (payload, reply) => {
     run(reply, () => {
       const room = store.submitClue(requireSocketClient(socket), payload.clue);

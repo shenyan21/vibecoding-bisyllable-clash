@@ -6,7 +6,7 @@ import { getCardsByMode } from "./db.js";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
 const CHILDHOOD_DIR = path.join(ROOT, "data", "childhood");
-const CARD_FILE = path.join(CHILDHOOD_DIR, "search_items.jsonl");
+const CARD_FILE = path.join(CHILDHOOD_DIR, "items.jsonl");
 const COVER_DIR = path.join(CHILDHOOD_DIR, "covers");
 
 export function loadChildhoodCards() {

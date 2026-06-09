@@ -233,6 +233,7 @@ function App() {
     <GameRoomScreen
       connected={connected}
       error={error}
+      setError={setError}
       publicUrl={publicUrl}
       request={request}
       room={room}
@@ -579,18 +580,24 @@ function LobbyScreen({ connected, error, publicUrl, request, room, leaveLocalRoo
 function SidebarStatus({ room, remainingSeconds }) {
   const clues = room.clueHistory || [];
   const timerText = room.status === "playing" && room.phase !== "round_over" ? `${remainingSeconds}s` : "--";
+  const me = room.me;
+  const isMyTurn = me?.role === "contestant"
+    && me?.team === room.currentTurnTeam
+    && room.status === "playing"
+    && (room.phase === "clue" || room.phase === "guess");
   return (
     <div className="sidebar-status">
       <div className="sidebar-timer">
         <Timer size={16} />
         <span>{timerText}</span>
+        <span className={`turn-light ${isMyTurn ? "active" : ""}`} title={isMyTurn ? "轮到你了" : ""} />
       </div>
       <ClueTimeline clues={clues} />
     </div>
   );
 }
 
-function GameRoomScreen({ connected, error, publicUrl, request, room, leaveLocalRoom }) {
+function GameRoomScreen({ connected, error, setError, publicUrl, request, room, leaveLocalRoom }) {
   const [hostOpen, setHostOpen] = useState(false);
   const [shareCopied, setShareCopied] = useState(false);
   const remainingSeconds = useCountdown(room.turnEndsAt, room.serverNow);
@@ -631,7 +638,7 @@ function GameRoomScreen({ connected, error, publicUrl, request, room, leaveLocal
         <MessageRail messages={room.messages} />
       </section>
 
-      <ActionDock room={room} request={request} remainingSeconds={remainingSeconds} />
+      <ActionDock room={room} request={request} remainingSeconds={remainingSeconds} clearError={() => setError("")} />
 
       <HostDrawer
         open={hostOpen}
@@ -817,6 +824,16 @@ function GameStage({ room, request, remainingSeconds, viewState }) {
     room.phase === "guess" &&
     room.me.team === room.currentTurnTeam &&
     room.me.seatRole === "guesser";
+  const canChangeCard =
+    room.status === "playing" &&
+    room.phase === "clue" &&
+    room.me.role === "contestant" &&
+    room.me.team === room.currentTurnTeam &&
+    room.me.seatRole === "clue_giver";
+
+  function handleChangeCard() {
+    request("turn:changeCard");
+  }
 
   return (
     <section className={canViewGuesserOptions || canViewClueOptions ? "main-stage guesser-stage" : "main-stage"}>
@@ -829,7 +846,7 @@ function GameStage({ room, request, remainingSeconds, viewState }) {
         )
       ) : (
         <>
-          {isMediaAnswerMode ? <MediaTitleCard card={room.currentCard} hidden={hidden} mode={room.gameMode} /> : <HexRuneCard card={room.currentCard} hidden={hidden} />}
+          {isMediaAnswerMode ? <MediaTitleCard card={room.currentCard} hidden={hidden} mode={room.gameMode} canChangeCard={canChangeCard} onChangeCard={handleChangeCard} /> : <HexRuneCard card={room.currentCard} hidden={hidden} canChangeCard={canChangeCard} onChangeCard={handleChangeCard} />}
 
           {canViewClueOptions && (
             <MediaAnswerBoard room={room} request={request} remainingSeconds={remainingSeconds} canSubmit={false} viewerRole="clue_giver" />
@@ -843,8 +860,8 @@ function GameStage({ room, request, remainingSeconds, viewState }) {
               </>
             ) : lastTurn ? (
               <>
-                <strong>{lastTurn.isCorrect ? "判定正确" : lastTurn.timedOut ? "超时换边" : "判定错误"}</strong>
-                <span>{lastTurn.selectedAnswerName || "未提交答案"}</span>
+                <strong>{lastTurn.isCorrect ? "判定正确" : lastTurn.timedOut ? "超时换边" : room.phase === "guess" ? "答错，等待同队" : "判定错误"}</strong>
+                <span>{lastTurn.isCorrect ? lastTurn.selectedAnswerName : lastTurn.guesserName ? `${lastTurn.guesserName}：${lastTurn.selectedAnswerName || "空答案"}` : (lastTurn.selectedAnswerName || "未提交答案")}</span>
               </>
             ) : (
               <>
@@ -887,7 +904,7 @@ function ClueTimeline({ clues }) {
   );
 }
 
-function HexRuneCard({ card, hidden }) {
+function HexRuneCard({ card, hidden, canChangeCard, onChangeCard }) {
   const hasCard = Boolean(card);
   const displayName = !hasCard ? "等待抽题" : hidden ? "???" : card.name;
   const rarity = card?.rarity || "";
@@ -895,6 +912,11 @@ function HexRuneCard({ card, hidden }) {
 
   return (
     <article className={`hex-rune-card ${qualityClass(rarity)} ${hidden ? "hidden-answer" : ""}`}>
+      {canChangeCard && (
+        <button className="change-card-button" onClick={onChangeCard} type="button" title="换一道题">
+          <RefreshCw size={16} /> 换题
+        </button>
+      )}
       <div className="hex-top">
         <div className="hex-art-frame">
           {card?.image && !hidden ? <RuneIcon src={card.image} name={card.name} className="hex-rune-art" /> : <div className="hex-question">?</div>}
@@ -910,7 +932,7 @@ function HexRuneCard({ card, hidden }) {
   );
 }
 
-function MediaTitleCard({ card, hidden, mode }) {
+function MediaTitleCard({ card, hidden, mode, canChangeCard, onChangeCard }) {
   const hasCard = Boolean(card);
   const displayName = !hasCard ? "等待抽题" : hidden ? "???" : card.name;
   const meta = mediaModeCopy(card?.mode || mode);
@@ -919,6 +941,11 @@ function MediaTitleCard({ card, hidden, mode }) {
 
   return (
     <article className={`anime-title-card ${hidden ? "hidden-answer" : ""}`}>
+      {canChangeCard && (
+        <button className="change-card-button" onClick={onChangeCard} type="button" title="换一道题">
+          <RefreshCw size={16} /> 换题
+        </button>
+      )}
       <div className="anime-title-poster">
         {!hidden && card?.image ? <PosterImage src={card.image} name={card.name} /> : <div className="poster-question">?</div>}
       </div>
@@ -1152,10 +1179,12 @@ function MediaAnswerBoard({ room, request, remainingSeconds, canSubmit = true, v
   );
 }
 
-function ActionDock({ room, request, remainingSeconds }) {
+function ActionDock({ room, request, remainingSeconds, clearError }) {
   const me = room.me;
+  const guessedPlayerIds = new Set(room.guessedPlayerIds || []);
+  const hasGuessed = guessedPlayerIds.has(me.id);
   const canClue = room.status === "playing" && room.phase === "clue" && me.team === room.currentTurnTeam && me.seatRole === "clue_giver";
-  const canGuess = room.status === "playing" && room.phase === "guess" && me.team === room.currentTurnTeam && me.seatRole === "guesser";
+  const canGuess = room.status === "playing" && room.phase === "guess" && me.team === room.currentTurnTeam && me.seatRole === "guesser" && !hasGuessed;
 
   if (room.status === "finished" || room.phase === "finished") {
     return <ResultDock room={room} final />;
@@ -1164,28 +1193,31 @@ function ActionDock({ room, request, remainingSeconds }) {
     return <ResultDock room={room} />;
   }
   if (canClue) {
-    return <ClueDock request={request} remainingSeconds={remainingSeconds} />;
+    return <ClueDock request={request} remainingSeconds={remainingSeconds} clearError={clearError} />;
   }
   if (canGuess) {
     return null;
   }
-  return <ProgressDock room={room} remainingSeconds={remainingSeconds} />;
+  return <ProgressDock room={room} remainingSeconds={remainingSeconds} hasGuessed={hasGuessed} />;
 }
 
-function ClueDock({ request, remainingSeconds }) {
+function ClueDock({ request, remainingSeconds, clearError }) {
   const [clue, setClue] = useState("");
   const [busy, setBusy] = useState(false);
+  const [clueError, setClueError] = useState("");
   const canSubmit = Boolean(clue.trim());
 
   async function submit(event) {
     event.preventDefault();
     if (!canSubmit) return;
     setBusy(true);
+    setClueError("");
     try {
       await request("turn:clue", { clue: clue.trim() });
       setClue("");
-    } catch {
-      // App-level request handler already surfaces the error toast.
+    } catch (err) {
+      setClueError(err?.message || "提示不合法");
+      clearError();
     } finally {
       setBusy(false);
     }
@@ -1200,13 +1232,16 @@ function ClueDock({ request, remainingSeconds }) {
         </div>
         <span>{remainingSeconds}s</span>
       </div>
-      <input
-        value={clue}
-        maxLength={20}
-        onChange={(event) => setClue(Array.from(event.target.value).slice(0, 20).join(""))}
-        placeholder="随便输入，提交后判定"
-        autoFocus
-      />
+      <div className="clue-dock-input-row">
+        {clueError && <div className="clue-error">{clueError}</div>}
+        <input
+          value={clue}
+          maxLength={20}
+          onChange={(event) => { setClue(Array.from(event.target.value).slice(0, 20).join("")); setClueError(""); }}
+          placeholder="随便输入，提交后判定"
+          autoFocus
+        />
+      </div>
       <button className="primary" disabled={busy || !canSubmit} type="submit"><Send size={18} /> 提交提示</button>
     </form>
   );
@@ -1352,7 +1387,9 @@ function PosterImage({ src, name, className = "" }) {
   return <img className={className} src={src} alt="" onError={() => setBroken(true)} />;
 }
 
-function ProgressDock({ room, remainingSeconds }) {
+function ProgressDock({ room, remainingSeconds, hasGuessed = false }) {
+  const me = room.me;
+  const isMyTeamTurn = me.team === room.currentTurnTeam && me.seatRole === "guesser" && hasGuessed;
   return (
     <section className="action-dock progress-dock">
       <div>
@@ -1360,7 +1397,7 @@ function ProgressDock({ room, remainingSeconds }) {
         <span>{room.currentTurnTeam ? `${teamName(room.currentTurnTeam)} · ${phaseLabel(room.phase)}` : phaseLabel(room.phase)}</span>
       </div>
       <div>
-        <strong>共享提示 {room.clueHistory?.length || 0} 条</strong>
+        <strong>{isMyTeamTurn ? "已提交答案，等待队友" : `共享提示 ${room.clueHistory?.length || 0} 条`}</strong>
         <span>{room.status === "playing" ? `剩余 ${remainingSeconds}s` : "观战中"}</span>
       </div>
     </section>
@@ -1822,6 +1859,28 @@ function AnnouncementModal({ onClose }) {
           </section>
           
           <section className="announcement-section">
+            <h3>🚀 v1.6 版本更新内容</h3>
+            <ul>
+              <li>📺 <strong>童年题库品质净化</strong>：从 811 条精简至 406 条核心热门与高评分作品，补齐 25 部作品首播年份，告别"未知日期"。</li>
+              <li>🖼️ <strong>封面加载彻底修复</strong>：全部封面改为本地存储，彻底解决豆瓣防盗链导致的图片无法显示问题。</li>
+              <li>💡 <strong>提示验证体验优化</strong>：提示不通过时错误信息直接显示在输入框左侧，不再跳到页面顶部。</li>
+              <li>🔔 <strong>轮次指示灯</strong>：倒计时旁新增指示灯，轮到你提示或猜题时自动亮起，一目了然。</li>
+              <li>🗂️ <strong>已删除条目归档</strong>：被筛除的条目及封面统一归档到 deleted 文件夹，方便后续恢复。</li>
+            </ul>
+          </section>
+
+          <section className="announcement-section">
+            <h3>🚀 v1.5 版本更新内容</h3>
+            <ul>
+              <li>🎮 <strong>题库品质全面净化</strong>：筛选并精简保留 388 款核心热门与高评分游戏，补齐 315 款游戏中文译名及 145 处空缺介绍，彻底消除乱码和英文缺失。</li>
+              <li>🖼️ <strong>高清封面升级</strong>：接入 Steam 官方 CDN 更新 292 款高清封面图，彻底删除 549 张低清晰度及冗余的本地封面图片，显著优化图片加载质量。</li>
+              <li>⚡ <strong>界面布局现代优化</strong>：输入区全局置底，新增左侧固定悬浮状态栏（实时展示倒计时与提示历史），彻底修复频繁入座/旁观拉伸大厅高度的视觉 Bug。</li>
+              <li>🛡️ <strong>稳定性与限流放行</strong>：移除动态海报的懒加载以杜绝偶现白屏；对静态图片资源和 Socket 握手豁免 IP 限流计数，免除并发大流量下的 429 误判拦截。</li>
+              <li>🔄 <strong>对局重置逻辑重构</strong>：重置房间时强制全员（除主持人外）重设为观众席并清空准备状态，保障新对局的整洁公平。</li>
+            </ul>
+          </section>
+
+          <section className="announcement-section">
             <h3>🚀 v1.4 版本更新内容</h3>
             <ul>
               <li>🎉 新增游戏、童年经典动漫题库，玩法选择更多样。</li>
@@ -1831,8 +1890,8 @@ function AnnouncementModal({ onClose }) {
           </section>
 
           <section className="announcement-section warning-section">
-            <h3>⚠️ 待优化问题</h3>
-            <p>🔧 目前游戏图片库可能存在加载 bug，正在紧急修复中。</p>
+            <h3>💡 提示</h3>
+            <p>🌟 v1.6 已全面修复童年题库图片加载与日期缺失问题，祝您游戏愉快！</p>
           </section>
         </div>
         <div className="modal-footer">
