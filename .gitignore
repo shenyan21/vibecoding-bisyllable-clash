@@ -10,6 +10,7 @@ releases/
 
 # 敏感文本凭证与本地部署说明
 账号密码.txt
+ssh密码.txt
 优化清单.txt
 README_deploy.md
 deploy.ps1

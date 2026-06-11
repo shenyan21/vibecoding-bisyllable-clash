@@ -15,15 +15,15 @@ export const DEFAULT_ROOM_ID = "TEST";
 export const FIXED_ROOM_IDS = ["TEST"];
 export const HOST_NICKNAME = "管理员";
 
-const NEXT_ROUND_DELAY_MS = 2200;
+const NEXT_ROUND_DELAY_MS = 5000;
 const TEAM_NAMES = {
   A: "迅捷蟹队",
   B: "石甲虫队"
 };
 const OPTION_QUALITY_FILTERS = new Set(["白银", "黄金", "棱彩"]);
-const GAME_MODES = new Set(["hextech", "anime", "game", "childhood"]);
+const GAME_MODES = new Set(["hextech", "anime", "game", "childhood", "yingshi"]);
 const RANDOM_CANDIDATE_COUNT = 200;
-const RANDOM_CANDIDATE_MODES = new Set(["anime", "game", "childhood"]);
+const RANDOM_CANDIDATE_MODES = new Set(["anime", "game", "childhood", "yingshi"]);
 const TEAMS = ["A", "B"];
 const MAX_TEAM_PLAYERS = 5;
 const MAX_TEAM_GUESSERS = MAX_TEAM_PLAYERS - 1;
@@ -32,7 +32,8 @@ const GAME_MODE_LABELS = {
   hextech: "海克斯玩法",
   anime: "谁是动漫糕手？",
   game: "提示位别红温",
-  childhood: "不想长大"
+  childhood: "不想长大",
+  yingshi: "阅片无数"
 };
 
 export class RoomStore {
@@ -344,6 +345,7 @@ export class RoomStore {
     });
     reset.settings = this.withAllCandidateOptions(keepSettings, keepGameMode);
     reset.cardUsageCounts = { ...keepCardUsageCounts };
+    reset.playerScores = { ...(room.playerScores || {}) };
     reset.messages = [this.systemMessage("房间已重置")];
     this.rooms.set(room.id, reset);
     this.touch(reset);
@@ -473,7 +475,15 @@ export class RoomStore {
 
     if (turn.isCorrect) {
       this.clearTurnTimer(room);
-      finishRound(room, room.currentTurnTeam, selected?.name ?? "");
+      const winnerTeam = room.currentTurnTeam;
+      finishRound(room, winnerTeam, selected?.name ?? "");
+      // 个人积分榜：获胜队伍每位队员 +1 分
+      if (!room.playerScores) room.playerScores = {};
+      room.players
+        .filter((p) => p.role === "contestant" && p.team === winnerTeam)
+        .forEach((p) => {
+          room.playerScores[p.id] = (room.playerScores[p.id] || 0) + 1;
+        });
       this.addMessage(room, `${player.nickname} 猜中，本局答案是 ${room.currentCard.name}`);
       if (isGameComplete(room)) {
         room.status = "finished";
@@ -550,13 +560,13 @@ export class RoomStore {
     return {
       ...serializableRoom,
       guessedPlayerIds: room.guessedPlayerIds ? [...room.guessedPlayerIds] : [],
-      players: sortPlayers(room.players).map((item) => redactPlayer(item, room.adminId)),
+      players: sortPlayers(room.players).map((item) => redactPlayer(item, room.adminId, room.playerScores || {})),
       currentCard: room.currentCard ? redactCard(room.currentCard, canSeeAnswer, player.seatRole !== "guesser") : null,
       currentOptions: getPlayerOptions(room.currentOptions, player).map((option) => redactOption(option, true)),
       currentOptionTotal: room.currentOptions.length,
       optionQualityFilter: normalizeOptionQualityFilter(player.optionQualityFilter),
       history: room.history.map((history) => redactHistory(history, canSeeAnswer)),
-      me: redactPlayer(player, room.adminId),
+      me: redactPlayer(player, room.adminId, room.playerScores || {}),
       serverNow: Date.now(),
       canSeeAnswer
     };
@@ -661,6 +671,10 @@ export class RoomStore {
         isAdminUser: isFirst
       };
       room.players.push(player);
+      if (!room.playerScores) room.playerScores = {};
+      if (room.playerScores[clientId] === undefined) {
+        room.playerScores[clientId] = 0;
+      }
     } else {
       player.nickname = cleanNickname;
       if (room.players.length === 1 && !room.adminId) {
@@ -935,7 +949,8 @@ function normalizeCardCatalogs(cardCatalogs) {
     hextech: Array.isArray(cardCatalogs?.hextech) ? cardCatalogs.hextech : [],
     anime: Array.isArray(cardCatalogs?.anime) ? cardCatalogs.anime : [],
     game: Array.isArray(cardCatalogs?.game) ? cardCatalogs.game : [],
-    childhood: Array.isArray(cardCatalogs?.childhood) ? cardCatalogs.childhood : []
+    childhood: Array.isArray(cardCatalogs?.childhood) ? cardCatalogs.childhood : [],
+    yingshi: Array.isArray(cardCatalogs?.yingshi) ? cardCatalogs.yingshi : []
   };
 }
 
@@ -985,7 +1000,7 @@ function hasPlayableLineup(room) {
   return TEAMS.every((team) => teamHasPlayableLineup(room, team));
 }
 
-function redactPlayer(player, adminId) {
+function redactPlayer(player, adminId, scores = {}) {
   return {
     id: player.id,
     nickname: player.nickname,
@@ -995,7 +1010,8 @@ function redactPlayer(player, adminId) {
     ready: Boolean(player.ready),
     online: player.online,
     joinedAt: player.joinedAt,
-    isAdmin: player.id === adminId
+    isAdmin: player.id === adminId,
+    score: scores[player.id] || 0
   };
 }
 

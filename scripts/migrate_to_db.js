@@ -2,6 +2,7 @@ import { loadHexCardsFromFile } from "../server/hexCards.js";
 import { loadAnimeCardsFromFile } from "../server/animeCards.js";
 import { loadGameCardsFromFile } from "../server/gameCards.js";
 import { loadChildhoodCardsFromFile } from "../server/childhoodCards.js";
+import { loadYingshiCardsFromFile } from "../server/yingshiCards.js";
 import { db } from "../server/db.js";
 
 console.log("Starting database migration...");
@@ -41,6 +42,13 @@ db.transaction(() => {
   const childhoodCards = loadChildhoodCardsFromFile();
   for (const card of childhoodCards) {
     insert.run(card.id, "childhood", JSON.stringify(card));
+  }
+
+  // 5. 阅片无数
+  console.log("Migrating Yingshi...");
+  const yingshiCards = loadYingshiCardsFromFile();
+  for (const card of yingshiCards) {
+    insert.run(card.id, "yingshi", JSON.stringify(card));
   }
 })();
 

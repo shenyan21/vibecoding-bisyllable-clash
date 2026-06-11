@@ -1,5 +1,6 @@
 import express from "express";
 import http from "node:http";
+import nodemailer from "nodemailer";
 import path from "node:path";
 import { Server } from "socket.io";
 import { createServer as createViteServer } from "vite";
@@ -7,6 +8,7 @@ import { getAnimeStaticDir, loadAnimeCards } from "./animeCards.js";
 import { getChildhoodStaticDir, loadChildhoodCards } from "./childhoodCards.js";
 import { getGameStaticDir, loadGameCards } from "./gameCards.js";
 import { getHextechStaticDir, loadHexCards } from "./hexCards.js";
+import { getYingshiStaticDir, loadYingshiCards } from "./yingshiCards.js";
 import { DEFAULT_ROOM_ID, RoomStore } from "./roomStore.js";
 
 const PORT = Number(process.env.PORT || 8787);
@@ -15,6 +17,7 @@ const cards = loadHexCards();
 const animeCards = loadAnimeCards();
 const gameCards = loadGameCards();
 const childhoodCards = loadChildhoodCards();
+const yingshiCards = loadYingshiCards();
 const app = express();
 const httpServer = http.createServer(app);
 const io = new Server(httpServer);
@@ -31,7 +34,7 @@ if (PORT === 80) {
   }
 }
 
-const store = new RoomStore({ hextech: cards, anime: animeCards, game: gameCards, childhood: childhoodCards });
+const store = new RoomStore({ hextech: cards, anime: animeCards, game: gameCards, childhood: childhoodCards, yingshi: yingshiCards });
 
 // 基于内存的轻量级 IP 限流防刷器
 const ipLimits = new Map();
@@ -48,6 +51,7 @@ app.use((req, res, next) => {
     path.startsWith("/anime/") ||
     path.startsWith("/game/") ||
     path.startsWith("/childhood/") ||
+    path.startsWith("/yingshi/") ||
     path.startsWith("/hextech/") ||
     path.startsWith("/assets/") ||
     path.startsWith("/socket.io/") ||
@@ -70,11 +74,12 @@ app.use("/hextech", express.static(getHextechStaticDir()));
 app.use("/anime", express.static(getAnimeStaticDir()));
 app.use("/game", express.static(getGameStaticDir()));
 app.use("/childhood", express.static(getChildhoodStaticDir()));
+app.use("/yingshi", express.static(getYingshiStaticDir()));
 app.get("/favicon.ico", (req, res) => {
   res.status(204).end();
 });
 app.get("/api/cards/count", (req, res) => {
-  res.json({ count: cards.length, hextech: cards.length, anime: animeCards.length, game: gameCards.length, childhood: childhoodCards.length });
+  res.json({ count: cards.length, hextech: cards.length, anime: animeCards.length, game: gameCards.length, childhood: childhoodCards.length, yingshi: yingshiCards.length });
 });
 app.get("/api/anime/posters", (req, res) => {
   const limit = clampInt(req.query.limit, 24, 160, 96);
@@ -112,9 +117,80 @@ app.get("/api/childhood/posters", (req, res) => {
     }))
   });
 });
-app.get("/api/public-config", (req, res) => {
-  const host = req.headers.host;
-  const protocol = req.headers["x-forwarded-proto"] || req.protocol || "http";
+app.get("/api/yingshi/posters", (req, res) => {
+  const limit = clampInt(req.query.limit, 24, 160, 96);
+  res.json({
+    posters: yingshiCards.slice(0, limit).map((card) => ({
+      id: card.id,
+      name: card.name,
+      image: card.image,
+      score: card.score,
+      date: card.date
+    }))
+  });
+});
+  app.post("/api/feedback", async (req, res) => {
+    const { nickname, content } = req.body;
+    const cleanNickname = String(nickname || "").trim();
+    const cleanContent = String(content || "").trim();
+
+    if (!cleanNickname || !cleanContent) {
+      return res.status(400).json({ error: "昵称和反馈内容不能为空" });
+    }
+
+    console.log(`[Feedback] 收到建议/BUG反馈 - 昵称: ${cleanNickname}, 内容: ${cleanContent}`);
+
+    const smtpUser = process.env.SMTP_USER || "";
+    const smtpPass = process.env.SMTP_PASS || ""; // 授权码
+    const smtpHost = process.env.SMTP_HOST || "smtp.qq.com";
+    const smtpPort = parseInt(process.env.SMTP_PORT || "465");
+
+    if (!smtpUser || !smtpPass) {
+      console.warn("[Feedback] 未配置环境变量 SMTP_USER 或 SMTP_PASS，跳过邮件发送。反馈已记录在控制台。");
+      return res.json({ 
+        ok: true, 
+        message: "反馈提交成功！(当前服务器未配置发信邮箱，已记录在系统后台)" 
+      });
+    }
+
+    try {
+      const transporter = nodemailer.createTransport({
+        host: smtpHost,
+        port: smtpPort,
+        secure: smtpPort === 465,
+        auth: {
+          user: smtpUser,
+          pass: smtpPass
+        }
+      });
+
+      await transporter.sendMail({
+        from: `"反馈系统" <${smtpUser}>`,
+        to: "2326138323@qq.com",
+        subject: `【双音节猜题反馈】来自 ${cleanNickname} 的反馈`,
+        text: `用户昵称: ${cleanNickname}\n反馈内容:\n${cleanContent}`,
+        html: `
+          <div style="padding: 20px; font-family: sans-serif; background: #0b1725; color: #eef6ff; border-radius: 8px; border: 1px solid rgba(123, 151, 184, 0.26);">
+            <h2 style="color: #12d7d0; margin-bottom: 20px; border-bottom: 1px solid rgba(123, 151, 184, 0.16); padding-bottom: 10px;">双音节猜题 - 新反馈提示</h2>
+            <p style="margin: 10px 0;"><strong style="color: #91a7bc;">用户昵称：</strong> ${cleanNickname}</p>
+            <p style="margin: 10px 0;"><strong style="color: #91a7bc;">反馈内容：</strong></p>
+            <div style="background: #07111d; padding: 15px; border: 1px solid rgba(123, 151, 184, 0.26); border-radius: 6px; white-space: pre-wrap; color: #eef6ff; font-size: 14px; line-height: 1.6;">${cleanContent}</div>
+            <hr style="border: none; border-top: 1px solid rgba(123, 151, 184, 0.16); margin: 20px 0;" />
+            <small style="color: #5f7488; display: block; text-align: center;">此邮件由系统自动发出，请勿直接回复。</small>
+          </div>
+        `
+      });
+
+      return res.json({ ok: true, message: "反馈提交成功，邮件已即时发送给开发者！" });
+    } catch (error) {
+      console.error("[Feedback] 邮件发送失败:", error);
+      return res.status(500).json({ error: `提交失败，邮件发送异常: ${error.message}` });
+    }
+  });
+
+  app.get("/api/public-config", (req, res) => {
+    const host = req.headers.host;
+    const protocol = req.headers["x-forwarded-proto"] || req.protocol || "http";
   let baseUrl = "";
   if (host) {
     baseUrl = `${protocol}://${host}`;

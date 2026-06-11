@@ -897,6 +897,12 @@ h3 {
   gap: 3px;
 }
 
+.player-name-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
 .current-player small {
   color: var(--muted);
   font-size: 12px;
@@ -907,6 +913,16 @@ h3 {
 
 .ready-check {
   color: var(--green);
+}
+
+.player-score {
+  margin-left: 6px;
+  padding: 1px 7px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #f0c040;
+  background: rgba(240, 192, 64, 0.12);
+  border-radius: 10px;
 }
 
 .game-layout {
@@ -2517,7 +2533,142 @@ h3 {
   box-shadow: 0 0 16px rgba(18, 215, 208, 0.16);
 }
 
-/* Sidebar Status and Countdown Group Styles */
+.feedback-trigger {
+  position: absolute;
+  top: 68px;
+  right: 20px;
+  z-index: 999;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(10, 20, 33, 0.76);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: var(--text);
+  font-weight: 800;
+  transition: all 0.2s ease;
+}
+
+.feedback-trigger:hover {
+  border-color: var(--cyan);
+  color: var(--cyan-2);
+  background: rgba(24, 48, 74, 0.9);
+  box-shadow: 0 0 16px rgba(18, 215, 208, 0.16);
+}
+
+.feedback-modal {
+  width: min(500px, 100%);
+  border: 1px solid rgba(123, 151, 184, 0.28);
+  border-radius: 12px;
+  background: rgba(10, 20, 33, 0.96);
+  box-shadow: 0 32px 90px rgba(0, 0, 0, 0.52);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: modalSlideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.feedback-modal .modal-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 24px;
+  border-bottom: 1px solid rgba(123, 151, 184, 0.16);
+  background: rgba(18, 215, 208, 0.04);
+}
+
+.feedback-modal .modal-header h2 {
+  flex: 1;
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text);
+  margin: 0;
+}
+
+.feedback-modal .close-button {
+  background: transparent;
+  border: none;
+  font-size: 26px;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 0 4px;
+  min-height: auto;
+  line-height: 1;
+  transition: color 0.15s ease;
+}
+
+.feedback-modal .close-button:hover {
+  color: var(--cyan);
+}
+
+.feedback-modal .modal-body {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.feedback-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.feedback-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.feedback-form input,
+.feedback-form textarea {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: #07111d;
+  color: var(--text);
+  padding: 10px 12px;
+  outline: none;
+  font-family: inherit;
+  font-size: 14px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.feedback-form input:focus,
+.feedback-form textarea:focus {
+  border-color: var(--cyan);
+  box-shadow: 0 0 0 2px rgba(18, 215, 208, 0.14);
+}
+
+.feedback-form textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.feedback-form .submit-btn {
+  margin-top: 8px;
+}
+
+.feedback-status {
+  padding: 10px;
+  border-radius: var(--radius);
+  font-size: 14px;
+  text-align: center;
+}
+
+.feedback-status.success {
+  background: rgba(101, 230, 162, 0.12);
+  border: 1px solid rgba(101, 230, 162, 0.3);
+  color: var(--green);
+}
+
+.feedback-status.error {
+  background: rgba(255, 111, 125, 0.12);
+  border: 1px solid rgba(255, 111, 125, 0.3);
+  color: var(--red);
+}/* Sidebar Status and Countdown Group Styles */
 .sidebar-status {
   display: flex;
   flex-direction: column;

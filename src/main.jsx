@@ -4,6 +4,7 @@ import { io } from "socket.io-client";
 import {
   Check,
   Circle,
+  Clapperboard,
   Copy,
   CalendarDays,
   Eye,
@@ -48,7 +49,8 @@ const GAME_MODES = [
   { value: "hextech", label: "海克斯玩法", title: "海克斯双音节对抗", joinLabel: "加入海克斯玩法" },
   { value: "anime", label: "谁是动漫糕手？", title: "谁是动漫糕手？", joinLabel: "加入动漫糕手" },
   { value: "game", label: "提示位别红温", title: "提示位别红温", joinLabel: "加入提示位别红温" },
-  { value: "childhood", label: "不想长大", title: "不想长大", joinLabel: "加入不想长大" }
+  { value: "childhood", label: "不想长大", title: "不想长大", joinLabel: "加入不想长大" },
+  { value: "yingshi", label: "阅片无数", title: "阅片无数", joinLabel: "加入阅片无数" }
 ];
 const TEAM_META = {
   A: { name: "迅捷蟹队", shortName: "迅捷蟹", side: "潮汐蓝" },
@@ -96,6 +98,7 @@ function App() {
   const [lastRoomId, setLastRoomId] = useState(getInitialRoomId);
   const [publicUrl, setPublicUrl] = useState("");
   const [announcementOpen, setAnnouncementOpen] = useState(false);
+  const [feedbackOpen, setFeedbackOpen] = useState(false);
 
   useEffect(() => {
     if (!room) {
@@ -211,8 +214,10 @@ function App() {
           lastRoomId={lastRoomId}
           request={request}
           onOpenAnnouncement={() => setAnnouncementOpen(true)}
+          onOpenFeedback={() => setFeedbackOpen(true)}
         />
         {announcementOpen && <AnnouncementModal onClose={() => setAnnouncementOpen(false)} />}
+        {feedbackOpen && <FeedbackModal onClose={() => setFeedbackOpen(false)} />}
       </>
     );
   }
@@ -329,7 +334,7 @@ function AccessScreen({ onAccessGranted }) {
   );
 }
 
-function HomeScreen({ clientId, connected, error, lastRoomId, request, onOpenAnnouncement }) {
+function HomeScreen({ clientId, connected, error, lastRoomId, request, onOpenAnnouncement, onOpenFeedback }) {
   const [nickname, setNickname] = useState(() => {
     const fromUrl = new URLSearchParams(window.location.search).get("nickname");
     return fromUrl || localStorage.getItem(NICKNAME_KEY) || "";
@@ -383,6 +388,9 @@ function HomeScreen({ clientId, connected, error, lastRoomId, request, onOpenAnn
     <main className={`home-shell mode-${gameMode}`}>
       <button className="announcement-trigger" onClick={onOpenAnnouncement} title="公告与玩法" type="button">
         <HelpCircle size={18} /> 公告
+      </button>
+      <button className="feedback-trigger" onClick={onOpenFeedback} title="意见反馈与Bug提交" type="button">
+        <Send size={18} /> 反馈
       </button>
       <nav className="home-mode-switch" aria-label="玩法切换">
         {GAME_MODES.map((mode) => (
@@ -776,15 +784,19 @@ function SeatCard({ team, seatRole, slotIndex = null, player, room, request, int
 }
 
 function CurrentPlayers({ room }) {
+  const sorted = [...room.players].sort((a, b) => (b.score || 0) - (a.score || 0));
   return (
     <section className="side-section">
       <h2><Users size={18} /> 当前玩家</h2>
       <div className="current-player-list">
-        {room.players.map((player) => (
+        {sorted.map((player) => (
           <div key={player.id} className="current-player">
             <span className={player.online ? "status-dot online" : "status-dot offline"} />
             <div>
-              <strong>{player.nickname}</strong>
+              <div className="player-name-row">
+                <strong>{player.nickname}</strong>
+                <span className="player-score">{player.score || 0}</span>
+              </div>
               <small>{playerText(player)}</small>
             </div>
             {player.ready && <Check size={16} className="ready-check" />}
@@ -1737,12 +1749,13 @@ function modeIcon(value, size = 17) {
   if (mode === "anime") return <Film size={size} />;
   if (mode === "game") return <Gamepad2 size={size} />;
   if (mode === "childhood") return <Sparkles size={size} />;
+  if (mode === "yingshi") return <Clapperboard size={size} />;
   return <Swords size={size} />;
 }
 
 function isMediaMode(value) {
   const mode = normalizeGameMode(value);
-  return mode === "anime" || mode === "game" || mode === "childhood";
+  return mode === "anime" || mode === "game" || mode === "childhood" || mode === "yingshi";
 }
 
 function homeModeDescription(value) {
@@ -1755,6 +1768,9 @@ function homeModeDescription(value) {
   }
   if (mode === "childhood") {
     return "从童年动画题库中每次随机抽出 200 个候选，提示者查看豆瓣条目、评分和相关人物，猜题者通过名称、标签和人物搜索锁定答案。";
+  }
+  if (mode === "yingshi") {
+    return "从 406 部影视题库中每次随机抽出 200 个候选，涵盖电影与剧集，提示者查看豆瓣条目详情，猜题者通过名称、标签、导演和演员搜索锁定答案。";
   }
   return "固定房间、四席准备、自动开局。主持人权限会保留在你的账号上，入座参赛或旁观都不影响右上角主持人面板。";
 }
@@ -1783,6 +1799,17 @@ function mediaModeCopy(value) {
       emptyText: "没有匹配的游戏"
     };
   }
+  if (mode === "yingshi") {
+    return {
+      itemLabel: "影视",
+      poolTitle: "阅片无数候选池",
+      clueLabel: "提示影视",
+      chooseLabel: "选择影视",
+      searchPlaceholder: "名称、标签、导演、演员",
+      linkLabel: "打开豆瓣条目",
+      emptyText: "没有匹配的影视"
+    };
+  }
   return {
     itemLabel: "动画",
     poolTitle: "动画候选池",
@@ -1798,6 +1825,7 @@ function optionScopeLabel(room) {
   if (room.gameMode === "anime") return `随机动画（${room.settings.optionCount}）`;
   if (room.gameMode === "game") return `随机游戏（${room.settings.optionCount}）`;
   if (room.gameMode === "childhood") return `随机童年动画（${room.settings.optionCount}）`;
+  if (room.gameMode === "yingshi") return `随机影视（${room.settings.optionCount}）`;
   return `全部符文（${room.settings.optionCount}）`;
 }
 
@@ -1876,7 +1904,7 @@ function qualityClass(rarity) {
 }
 
 function buildMediaTagFilters(options, mode) {
-  const ignored = mode === "anime" ? new Set(["日本", "TV"]) : mode === "childhood" ? new Set(["可播放"]) : new Set();
+  const ignored = mode === "anime" ? new Set(["日本", "TV"]) : mode === "childhood" || mode === "yingshi" ? new Set(["可播放"]) : new Set();
   const counts = new Map();
   for (const option of options || []) {
     for (const tag of option.tags || []) {
@@ -2015,6 +2043,105 @@ function AnnouncementModal({ onClose }) {
         <div className="modal-footer">
           <button className="primary wide" onClick={onClose} type="button">我知道了</button>
         </div>
+      </div>
+    </div>
+  );
+}
+
+function FeedbackModal({ onClose }) {
+  const [nickname, setNickname] = useState(() => localStorage.getItem("hextech-duel-nickname") || "");
+  const [content, setContent] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+  const [status, setStatus] = useState({ type: "", message: "" });
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    const cleanNickname = nickname.trim();
+    const cleanContent = content.trim();
+
+    if (!cleanNickname) {
+      setStatus({ type: "error", message: "请输入您的昵称" });
+      return;
+    }
+    if (!cleanContent) {
+      setStatus({ type: "error", message: "反馈内容不能为空" });
+      return;
+    }
+    if (cleanContent.length < 5) {
+      setStatus({ type: "error", message: "为了我们能更好理解，反馈内容请至少输入 5 个字" });
+      return;
+    }
+
+    setSubmitting(true);
+    setStatus({ type: "", message: "" });
+
+    try {
+      const response = await fetch("/api/feedback", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ nickname: cleanNickname, content: cleanContent }),
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        throw new Error(data.error || "提交失败，请稍后再试");
+      }
+
+      setStatus({ type: "success", message: data.message || "感谢反馈！您的建议已成功提交。" });
+      localStorage.setItem("hextech-duel-nickname", cleanNickname);
+      setTimeout(() => {
+        onClose();
+      }, 1500);
+    } catch (err) {
+      setStatus({ type: "error", message: err.message || "提交失败，网络异常" });
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  return (
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal-content feedback-modal" onClick={(e) => e.stopPropagation()}>
+        <div className="modal-header">
+          <div className="brand-mark"><Send size={22} /></div>
+          <h2>BUG 反馈与建议</h2>
+          <button className="close-button" onClick={onClose} type="button">×</button>
+        </div>
+        <form onSubmit={handleSubmit} className="feedback-form">
+          <div className="modal-body">
+            <label>
+              您的昵称
+              <input
+                type="text"
+                placeholder="请输入昵称"
+                maxLength={16}
+                value={nickname}
+                onChange={(e) => setNickname(e.target.value)}
+                disabled={submitting}
+              />
+            </label>
+            <label>
+              反馈与建议内容
+              <textarea
+                placeholder="请详细描述您遇到的 BUG、改进建议或其他想法..."
+                maxLength={1000}
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+                disabled={submitting}
+              />
+            </label>
+
+            {status.message && (
+              <div className={`feedback-status ${status.type}`}>
+                {status.message}
+              </div>
+            )}
+          </div>
+          <div className="modal-footer">
+            <button className="primary wide submit-btn" type="submit" disabled={submitting}>
+              {submitting ? "正在提交..." : "提交反馈"}
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );

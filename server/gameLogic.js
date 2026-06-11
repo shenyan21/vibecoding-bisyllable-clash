@@ -57,6 +57,7 @@ export function createRoomState(roomId, adminId = null) {
     usedCardIds: [],
     candidateCardIds: [],
     cardUsageCounts: {},
+    playerScores: {},
     messages: [],
     createdAt: Date.now(),
     updatedAt: Date.now()
