@@ -1,7 +1,7 @@
 import express from "express";
 import http from "node:http";
-import nodemailer from "nodemailer";
 import path from "node:path";
+import fs from "node:fs/promises";
 import { Server } from "socket.io";
 import { createServer as createViteServer } from "vite";
 import { getAnimeStaticDir, loadAnimeCards } from "./animeCards.js";
@@ -140,51 +140,41 @@ app.get("/api/yingshi/posters", (req, res) => {
 
     console.log(`[Feedback] 收到建议/BUG反馈 - 昵称: ${cleanNickname}, 内容: ${cleanContent}`);
 
-    const smtpUser = process.env.SMTP_USER || "";
-    const smtpPass = process.env.SMTP_PASS || ""; // 授权码
-    const smtpHost = process.env.SMTP_HOST || "smtp.qq.com";
-    const smtpPort = parseInt(process.env.SMTP_PORT || "465");
-
-    if (!smtpUser || !smtpPass) {
-      console.warn("[Feedback] 未配置环境变量 SMTP_USER 或 SMTP_PASS，跳过邮件发送。反馈已记录在控制台。");
-      return res.json({ 
-        ok: true, 
-        message: "反馈提交成功！(当前服务器未配置发信邮箱，已记录在系统后台)" 
-      });
-    }
-
     try {
-      const transporter = nodemailer.createTransport({
-        host: smtpHost,
-        port: smtpPort,
-        secure: smtpPort === 465,
-        auth: {
-          user: smtpUser,
-          pass: smtpPass
+      const feedbackDir = path.join(process.cwd(), "data");
+      const feedbackPath = path.join(feedbackDir, "feedbacks.json");
+
+      // 确保 data 目录存在
+      try {
+        await fs.mkdir(feedbackDir, { recursive: true });
+      } catch (e) {
+        // 忽略目录已存在的错误
+      }
+
+      let feedbacks = [];
+      try {
+        const fileData = await fs.readFile(feedbackPath, "utf-8");
+        feedbacks = JSON.parse(fileData);
+        if (!Array.isArray(feedbacks)) {
+          feedbacks = [];
         }
+      } catch (e) {
+        // 文件不存在或非标准 JSON 时初始化为空数组
+      }
+
+      feedbacks.push({
+        nickname: cleanNickname,
+        content: cleanContent,
+        time: new Date().toLocaleString("zh-CN", { timeZone: "Asia/Shanghai" })
       });
 
-      await transporter.sendMail({
-        from: `"反馈系统" <${smtpUser}>`,
-        to: "2326138323@qq.com",
-        subject: `【双音节猜题反馈】来自 ${cleanNickname} 的反馈`,
-        text: `用户昵称: ${cleanNickname}\n反馈内容:\n${cleanContent}`,
-        html: `
-          <div style="padding: 20px; font-family: sans-serif; background: #0b1725; color: #eef6ff; border-radius: 8px; border: 1px solid rgba(123, 151, 184, 0.26);">
-            <h2 style="color: #12d7d0; margin-bottom: 20px; border-bottom: 1px solid rgba(123, 151, 184, 0.16); padding-bottom: 10px;">双音节猜题 - 新反馈提示</h2>
-            <p style="margin: 10px 0;"><strong style="color: #91a7bc;">用户昵称：</strong> ${cleanNickname}</p>
-            <p style="margin: 10px 0;"><strong style="color: #91a7bc;">反馈内容：</strong></p>
-            <div style="background: #07111d; padding: 15px; border: 1px solid rgba(123, 151, 184, 0.26); border-radius: 6px; white-space: pre-wrap; color: #eef6ff; font-size: 14px; line-height: 1.6;">${cleanContent}</div>
-            <hr style="border: none; border-top: 1px solid rgba(123, 151, 184, 0.16); margin: 20px 0;" />
-            <small style="color: #5f7488; display: block; text-align: center;">此邮件由系统自动发出，请勿直接回复。</small>
-          </div>
-        `
-      });
+      // 格式化写入
+      await fs.writeFile(feedbackPath, JSON.stringify(feedbacks, null, 2), "utf-8");
 
-      return res.json({ ok: true, message: "反馈提交成功，邮件已即时发送给开发者！" });
+      return res.json({ ok: true, message: "反馈提交成功，感谢您的建议！" });
     } catch (error) {
-      console.error("[Feedback] 邮件发送失败:", error);
-      return res.status(500).json({ error: `提交失败，邮件发送异常: ${error.message}` });
+      console.error("[Feedback] 保存反馈失败:", error);
+      return res.status(500).json({ error: `提交失败，服务器内部错误: ${error.message}` });
     }
   });
 
